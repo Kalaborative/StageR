@@ -4,8 +4,6 @@
 	<title></title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="static/css/style.css">
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script src="static/js/as.js"></script>
 </head>
 <body>
 
@@ -14,14 +12,14 @@
   <!-- start content -->
     <div class="site-wrapper active" id="target">
       <div class="site-wrapper_left-col">
-        <a rel="nofollow" rel="noreferrer"href="#" class="logo">StageR</a>
+        <a rel="nofollow" rel="noreferrer" class="logo">StageR</a>
         <div class="left-nav">
           <a rel="nofollow" rel="noreferrer"href="#" class="active" id="singers"><i class="fa fa-microphone"></i>Singers</a>
-          <a rel="nofollow" rel="noreferrer"href="#openModal"><i class="fa fa-plus"></i>Add a new singer</a>
+          <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add a new singer</a>
         </div>
       </div>
       <div class="site-wrapper_top-bar">
-        <a rel="nofollow" rel="noreferrer"href="#" id="toggle"><i class="fa fa-bars"></i></a>
+        <a rel="nofollow" rel="noreferrer" id="toggle"><i class="fa fa-bars"></i></a>
       </div>
       <!-- inner content -->
       <div class="row">
@@ -31,7 +29,9 @@
               <h1>The person up next is...</h1>
             </div>
             <div class="user-item_info">
+              {% block mySinger %}
               <p class="name" id="currentSinger"></p>
+              {% endblock %}
               <div class="controls">
               	<a rel="nofollow" rel="noreferrer"href="#" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
 					<span class="tooltiptext">Next</span>
@@ -79,7 +79,7 @@
       </div>
       <!-- end inner content -->
     </div>
-    <div id="openModal" class="modalbg">
+    <div id="signup" class="modalbg">
   <div class="dialog">
     <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
     <form class="register" action="" method="post">
@@ -98,13 +98,6 @@
   </div>
 </div>
 </body>
-<script type="text/javascript">
-  $(document).ready(function(){
-    $(".chat_inner-item").click(function(){
-      var myDiv = document.getElementById("currentSinger");
-      myDiv.innerHTML += this.innerHTML
-      $(this).fadeOut('fast');
-    });
-  });
-</script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="static/js/as.js"></script>
 </html>

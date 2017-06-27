@@ -10,8 +10,8 @@ def index():
 			c = connection.cursor()
 			inputsex = request.form["sex"]
 			inputname = request.form["discordtag"]
-			batch = [(inputsex, inputname)]
-			c.executemany("INSERT INTO userdata VALUES(?,?)", batch)
+			batch = [(inputsex, inputname, 0)]
+			c.executemany("INSERT INTO userdata VALUES(?,?,?)", batch)
 			return redirect(url_for("index"))
 	with sqlite3.connect("tags.db") as connection:
 		c = connection.cursor()
@@ -19,9 +19,9 @@ def index():
 		myUsers = c.fetchall()
 	return render_template("index.html", users=myUsers)
 
-@app.route('/signup')
-def signup():
-	return render_template('signup.html')
-
+@app.route('/next')
+def nextSinger():
+	with sqlite3.connect("tags.db") as connection:
+		c = connection.cursor()
 if __name__ == "__main__":
 	app.run(debug=True)
