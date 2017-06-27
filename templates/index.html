@@ -17,7 +17,7 @@
         <a rel="nofollow" rel="noreferrer"href="#" class="logo">StageR</a>
         <div class="left-nav">
           <a rel="nofollow" rel="noreferrer"href="#" class="active" id="singers"><i class="fa fa-microphone"></i>Singers</a>
-          <a rel="nofollow" rel="noreferrer"href="#" id="newsinger"><i class="fa fa-plus"></i>Add a new singer</a>
+          <a rel="nofollow" rel="noreferrer"href="#openModal"><i class="fa fa-plus"></i>Add a new singer</a>
         </div>
       </div>
       <div class="site-wrapper_top-bar">
@@ -31,8 +31,7 @@
               <h1>The person up next is...</h1>
             </div>
             <div class="user-item_info">
-              <p class="name"></p>
-              <p class="sub"></p>
+              <p class="name" id="currentSinger"></p>
               <div class="controls">
               	<a rel="nofollow" rel="noreferrer"href="#" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
 					<span class="tooltiptext">Next</span>
@@ -53,30 +52,59 @@
                 Queue
               </div>
               <div class="chat_inner">
-                <div class="chat_inner-item">
+                {% for u in users %}
+                  {% if 'M' in u[0] %}
+                    <div class="chat_inner-item">
                   <div class="photo">
                     <img src="static/img/boyusericon.png" alt="myphoto" />
                   </div>
                   <div class="message">
-                    Hello, World!
+                    {{ u[1] }}
                   </div>
                 </div>
-                <div class="chat_inner-item right">
-                  <div class="message">
-                    Hello, World!
-                  </div>
+                  {% elif 'F' in u[0] %}
+                    <div class="chat_inner-item">
                   <div class="photo">
                     <img src="static/img/girlusericon.png" alt="myphoto" />
                   </div>
+                  <div class="message">
+                    {{ u[1] }}
+                  </div>
                 </div>
+                  {% endif %}
+                {% endfor %}
               </div>
             </div>
           </div>
       </div>
       <!-- end inner content -->
     </div>
+    <div id="openModal" class="modalbg">
+  <div class="dialog">
+    <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
+    <form class="register" action="" method="post">
+    <div class="register-switch">
+      <input type="radio" name="sex" value="F" id="sex_f" class="register-switch-input" checked>
+      <label for="sex_f" class="register-switch-label">Female</label>
+      <input type="radio" name="sex" value="M" id="sex_m" class="register-switch-input">
+      <label for="sex_m" class="register-switch-label">Male</label>
+    </div>
+    <input type="name" class="register-input" placeholder="Name/Discord Tag" name="discordtag">
+    <input type="submit" value="Add New Name" class="register-button">
+  </form>
+  </div>
+</div>
   <!-- end content -->
   </div>
 </div>
 </body>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".chat_inner-item").click(function(){
+      var myDiv = document.getElementById("currentSinger");
+      myDiv.innerHTML += this.innerHTML
+      $(this).fadeOut('fast');
+    });
+  });
+</script>
 </html>
