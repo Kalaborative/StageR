@@ -3,7 +3,6 @@ import sqlite3
 
 app = Flask(__name__)
 
-uwu = []
 firstUserData = []
 
 def makedata():
