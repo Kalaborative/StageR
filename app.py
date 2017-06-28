@@ -19,9 +19,19 @@ def index():
 		myUsers = c.fetchall()
 	return render_template("index.html", users=myUsers)
 
-@app.route('/next')
+@app.route('/next', methods=["POST"])
 def nextSinger():
 	with sqlite3.connect("tags.db") as connection:
 		c = connection.cursor()
+
+
+@app.route('/start')
+def startQueue():
+	with sqlite3.connect("tags.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT * FROM userdata")
+		myUsers = c.fetchall()
+	return render_template("index.html", users=myUsers)
+
 if __name__ == "__main__":
 	app.run(debug=True)

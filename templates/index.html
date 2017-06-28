@@ -33,7 +33,7 @@
               <p class="name" id="currentSinger"></p>
               {% endblock %}
               <div class="controls">
-              	<a rel="nofollow" rel="noreferrer"href="#" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
+              	<a rel="nofollow" rel="noreferrer"href="{{url_for('nextSinger')}}" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
 					<span class="tooltiptext">Next</span>
               	</a>
               </div>
@@ -73,6 +73,9 @@
                 </div>
                   {% endif %}
                 {% endfor %}
+              </div>
+              <div class="footer">
+              <a href="{{url_for('startQueue')}}"><button><i class="fa fa-paper-plane"></i> Start the Queue!</button></a>
               </div>
             </div>
           </div>
