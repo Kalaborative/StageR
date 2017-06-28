@@ -1,108 +1,107 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>StageR</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="static/css/style.css">
-  <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
-</head>
-<body>
-
-	<div class="wrapper">
-  <div class="wrapper_container">
-  <!-- start content -->
-    <div class="site-wrapper active" id="target">
-      <div class="site-wrapper_left-col">
-        <a rel="nofollow" rel="noreferrer" class="logo" href="{{url_for('index')}}">StageR</a>
-        <div class="left-nav">
-          <a rel="nofollow" rel="noreferrer"href="#" class="active" id="singers"><i class="fa fa-microphone"></i>Singers</a>
-          <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add a new singer</a>
-        </div>
-      </div>
-      <div class="site-wrapper_top-bar">
-        <a rel="nofollow" rel="noreferrer" id="toggle"><i class="fa fa-bars"></i></a>
-      </div>
-      <!-- inner content -->
-      <div class="row">
-        <div class="col-1">
-          <div class="user-item">
-            <div class="user-item_info">
-              <h1>The person up next is...</h1>
+  <head>
+	 <title>StageR</title>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	 <link rel="stylesheet" type="text/css" href="static/css/style.css">
+   <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+   <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+	   <div class="wrapper">
+      <div class="wrapper_container">
+        <!-- start content -->
+        <div class="site-wrapper active" id="target">
+          <div class="site-wrapper_left-col">
+            <a rel="nofollow" rel="noreferrer" class="logo" href="{{url_for('index')}}">StageR</a>
+            <div class="left-nav">
+              <a rel="nofollow" rel="noreferrer"href="#" class="active" id="singers"><i class="fa fa-microphone"></i>Singers</a>
+              <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add a new singer</a>
             </div>
-            <div class="user-item_info">
-              {% if first%}
+          </div>
+          <div class="site-wrapper_top-bar">
+            <a rel="nofollow" rel="noreferrer" id="toggle"><i class="fa fa-bars"></i></a>
+          </div>
+          <!-- inner content -->
+          <div class="row">
+            <div class="col-1">
+              <div class="user-item">
+                <div class="user-item_info">
+                  <h1>The person up next is...</h1>
+                </div>
+              <div class="user-item_info">
+                {% if first%}
                   {% if 'M' in first[0] %}
-                  <img src="static/img/boyusericon.png" />
+                    <img src="static/img/boyusericon.png" />
                   {% elif 'F' in first[0] %}
-                  <img src="static/img/girlusericon.png" />
+                    <img src="static/img/girlusericon.png" />
                   {% endif %}
                   <p class="name" id="currentSinger">{{first[1]}}</p>
                   {% if first[2] == 0 %}
-                  <p class="sub">This person has not sang before.</p>
+                    <p class="sub">This person has not sang before.</p>
                   {% elif first[2] == 1 %}
-                  <p class="sub">This person has sang once.</p>
+                    <p class="sub">This person has sang once.</p>
                   {% else %}
-                  <p class="sub">This person has sang {{first[2]}} times.</p>
+                    <p class="sub">This person has sang {{first[2]}} times.</p>
                   {% endif %}
                   <div class="controls">
-                <a rel="nofollow" rel="noreferrer"href="{{url_for('nextSinger')}}" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
-          <span class="tooltiptext">Next</span>
-                </a>
-              </div>
-              <div class="controls">
-                <a rel="nofollow" rel="noreferrer"href="{{url_for('skipSinger')}}" id="skip" class="tooltipB"><i class="fa fa-eraser"></i>
-          <span class="tooltiptext">Skip</span>
-                </a>
-              </div>
-              {% else %}
-                <p class="name" id="currentSinger">No one! Add someone first. :)</p>
-              {% endif %}
+                    <a rel="nofollow" rel="noreferrer"href="{{url_for('nextSinger')}}" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
+                      <span class="tooltiptext">Next</span>
+                    </a>
+                  </div>
+                  <div class="controls">
+                    <a rel="nofollow" rel="noreferrer"href="{{url_for('skipSinger')}}" id="skip" class="tooltipB"><i class="fa fa-eraser"></i>
+                      <span class="tooltiptext">Skip</span>
+                    </a>
+                  </div>
+                {% else %}
+                  <p class="name" id="currentSinger">No one! Add someone first. :)</p>
+                {% endif %}
             </div>
           </div>
         </div>
         <div class="col-2">
-            <div class="chat">
-              <div class="head">
-                <i class="fa fa-bell"></i>
+          <div class="chat">
+            <div class="head">
+              <i class="fa fa-bell"></i>
                 Queue
-              </div>
-              <div class="chat_inner">
+            </div>
+            <div class="chat_inner">
                 {% for u in users %}
                   {% if 'M' in u[0] %}
                     <div class="chat_inner-item">
-                  <div class="photo">
-                    <img src="static/img/boyusericon.png" />
-                  </div>
-                  <div class="message">
-                    {{ u[1] }}
-                  </div>
-                </div>
+                      <div class="photo">
+                        <img src="static/img/boyusericon.png" />
+                      </div>
+                      <div class="message">
+                        {{ u[1] }}
+                      </div>
+                    </div>
                   {% elif 'F' in u[0] %}
                     <div class="chat_inner-item">
-                  <div class="photo">
-                    <img src="static/img/girlusericon.png" />
-                  </div>
-                  <div class="message">
-                    {{ u[1] }}
-                  </div>
-                </div>
+                      <div class="photo">
+                        <img src="static/img/girlusericon.png" />
+                      </div>
+                      <div class="message">
+                        {{ u[1] }}
+                      </div>
+                    </div>
                   {% endif %}
                 {% endfor %}
-              </div>
-              <div class="footer">
+            </div>
+            <div class="footer">
               {% if users|length == 1 %}
-              <a href="#" id="queueButton"><button><i class="fa fa-music"></i> 1 person waiting!</button></a>
+                <a href="#" id="queueButton"><button><i class="fa fa-music"></i> 1 person waiting!</button></a>
               {% elif users|length > 1 %}
-              <a href="#" id="queueButton"><button><i class="fa fa-music"></i> {{ users|length }} people waiting!</button></a>
+                <a href="#" id="queueButton"><button><i class="fa fa-music"></i> {{ users|length }} people waiting!</button></a>
               {% endif %}
-              </div>
             </div>
           </div>
-      </div>
-      <!-- end inner content -->
+        </div>
     </div>
-    <div id="signup" class="modalbg">
+    <!-- end inner content -->
+  </div>
+  <div id="signup" class="modalbg">
   <div class="dialog">
     <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
     <form class="register" action="" method="post">
