@@ -12,7 +12,7 @@
   <!-- start content -->
     <div class="site-wrapper active" id="target">
       <div class="site-wrapper_left-col">
-        <a rel="nofollow" rel="noreferrer" class="logo">StageR</a>
+        <a rel="nofollow" rel="noreferrer" class="logo" href="{{url_for('index')}}">StageR</a>
         <div class="left-nav">
           <a rel="nofollow" rel="noreferrer"href="#" class="active" id="singers"><i class="fa fa-microphone"></i>Singers</a>
           <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add a new singer</a>
@@ -31,9 +31,9 @@
             <div class="user-item_info">
               {% if first%}
                   {% if 'M' in first[0] %}
-                  <img src="static/img/boyusericon.png" alt="myphoto" />
+                  <img src="static/img/boyusericon.png" />
                   {% elif 'F' in first[0] %}
-                  <img src="static/img/girlusericon.png" alt="myphoto" />
+                  <img src="static/img/girlusericon.png" />
                   {% endif %}
                   <p class="name" id="currentSinger">{{first[1]}}</p>
                   {% if first[2] == 0 %}
@@ -70,7 +70,7 @@
                   {% if 'M' in u[0] %}
                     <div class="chat_inner-item">
                   <div class="photo">
-                    <img src="static/img/boyusericon.png" alt="myphoto" />
+                    <img src="static/img/boyusericon.png" />
                   </div>
                   <div class="message">
                     {{ u[1] }}
@@ -79,7 +79,7 @@
                   {% elif 'F' in u[0] %}
                     <div class="chat_inner-item">
                   <div class="photo">
-                    <img src="static/img/girlusericon.png" alt="myphoto" />
+                    <img src="static/img/girlusericon.png" />
                   </div>
                   <div class="message">
                     {{ u[1] }}
