@@ -2,9 +2,13 @@ $(document).ready(function(){
 	$('#toggle').click(function(){
     	$('#target').toggleClass('active');
   });
-	$(".chat_inner-item").click(function(){
-      var myDiv = document.getElementById("currentSinger");
-      myDiv.innerHTML += this.innerHTML
-      $(this).fadeOut('fast');
+    $("#next").click(function(){
+    	$("#currentSinger").css("color", "#00ff7f");
+    	$("img").first().slideUp('fast');
     });
+    $("#skip").click(function(){
+    	$("#currentSinger").css("color", "#A9A9A9");
+    	$("#currentSinger").css("text-decoration", "line-through");
+    	$("img").first().slideUp('fast');
+    })
 });

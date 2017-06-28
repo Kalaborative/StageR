@@ -29,19 +29,33 @@
               <h1>The person up next is...</h1>
             </div>
             <div class="user-item_info">
-              {% block mySinger %}
-              <p class="name" id="currentSinger"></p>
-              {% endblock %}
-              <div class="controls">
-              	<a rel="nofollow" rel="noreferrer"href="{{url_for('nextSinger')}}" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
-					<span class="tooltiptext">Next</span>
-              	</a>
+              {% if first%}
+                  {% if 'M' in first[0] %}
+                  <img src="static/img/boyusericon.png" alt="myphoto" />
+                  {% elif 'F' in first[0] %}
+                  <img src="static/img/girlusericon.png" alt="myphoto" />
+                  {% endif %}
+                  <p class="name" id="currentSinger">{{first[1]}}</p>
+                  {% if first[2] == 0 %}
+                  <p class="sub">This person has not sang before.</p>
+                  {% elif first[2] == 1 %}
+                  <p class="sub">This person has sang once.</p>
+                  {% else %}
+                  <p class="sub">This person has sang {{first[2]}} times.</p>
+                  {% endif %}
+                  <div class="controls">
+                <a rel="nofollow" rel="noreferrer"href="{{url_for('nextSinger')}}" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
+          <span class="tooltiptext">Next</span>
+                </a>
               </div>
               <div class="controls">
-              	<a rel="nofollow" rel="noreferrer"href="#" id="skip" class="tooltipB"><i class="fa fa-eraser"></i>
-					<span class="tooltiptext">Skip</span>
-              	</a>
+                <a rel="nofollow" rel="noreferrer"href="{{url_for('skipSinger')}}" id="skip" class="tooltipB"><i class="fa fa-eraser"></i>
+          <span class="tooltiptext">Skip</span>
+                </a>
               </div>
+              {% else %}
+                <p class="name" id="currentSinger">No one! Add someone first. :)</p>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -75,7 +89,11 @@
                 {% endfor %}
               </div>
               <div class="footer">
-              <a href="{{url_for('startQueue')}}"><button><i class="fa fa-paper-plane"></i> Start the Queue!</button></a>
+              {% if users|length == 1 %}
+              <a href="#" id="queueButton"><button><i class="fa fa-music"></i> 1 person waiting!</button></a>
+              {% elif users|length > 1 %}
+              <a href="#" id="queueButton"><button><i class="fa fa-music"></i> {{ users|length }} people waiting!</button></a>
+              {% endif %}
               </div>
             </div>
           </div>
