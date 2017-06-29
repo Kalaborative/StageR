@@ -365,7 +365,28 @@ body {
 .chat .footer button:hover {
   background: #196090;
 }
+.chat_inner_scroll {
+  overflow-y: scroll;
+  height: 260px;
+  margin: 10px;
+}
+.chat_inner_scroll::-webkit-scrollbar-track
+{
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
 
+.chat_inner_scroll::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+.chat_inner_scroll::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #8ef3e9;
+}
 .chat_inner-item {
   padding: 10px 30px;
   display: -webkit-box;

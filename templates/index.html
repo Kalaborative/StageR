@@ -2,6 +2,7 @@
 <html>
   <head>
 	 <title>StageR</title>
+   <link rel="stylesheet" href="static/css/alertify.css">
 	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	 <link rel="stylesheet" type="text/css" href="static/css/style.css">
    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
@@ -17,6 +18,7 @@
             <div class="left-nav">
               <a rel="nofollow" rel="noreferrer"href="#" class="active" id="singers"><i class="fa fa-microphone"></i>Singers</a>
               <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add a new singer</a>
+              <a rel="nofollow" rel="noreferrer"href="{{url_for('resetHistory')}}" id="resetSingers"><i class="fa fa-refresh"></i>Reset singer history</a>
             </div>
           </div>
           <div class="site-wrapper_top-bar">
@@ -66,7 +68,11 @@
               <i class="fa fa-bell"></i>
                 Queue
             </div>
-            <div class="chat_inner">
+                {% if users|length > 4 %}
+                  <div class="chat_inner_scroll">
+                {% else %}
+                  <div class="chat_inner">
+                {% endif %}
                 {% for u in users %}
                   {% if 'M' in u[0] %}
                     <div class="chat_inner-item">
@@ -88,38 +94,38 @@
                     </div>
                   {% endif %}
                 {% endfor %}
-            </div>
-            <div class="footer">
+                </div>
+                <div class="footer">
               {% if users|length == 1 %}
                 <a href="#" id="queueButton"><button><i class="fa fa-music"></i> 1 person waiting!</button></a>
               {% elif users|length > 1 %}
                 <a href="#" id="queueButton"><button><i class="fa fa-music"></i> {{ users|length }} people waiting!</button></a>
               {% endif %}
+                </div>
+              </div>
+        </div>
+      </div>
+    <!-- end inner content -->
+        </div>
+          <div id="signup" class="modalbg">
+            <div class="dialog">
+              <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
+              <form class="register" action="" method="post">
+                <div class="register-switch">
+                  <input type="radio" name="sex" value="F" id="sex_f" class="register-switch-input" checked>
+                  <label for="sex_f" class="register-switch-label">Female</label>
+                  <input type="radio" name="sex" value="M" id="sex_m" class="register-switch-input">
+                  <label for="sex_m" class="register-switch-label">Male</label>
+                </div>
+                <input type="name" class="register-input" placeholder="Name/Discord Tag" name="discordtag">
+                <input type="submit" value="Add New Name" class="register-button">
+              </form>
             </div>
           </div>
-        </div>
-    </div>
-    <!-- end inner content -->
-  </div>
-  <div id="signup" class="modalbg">
-  <div class="dialog">
-    <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
-    <form class="register" action="" method="post">
-    <div class="register-switch">
-      <input type="radio" name="sex" value="F" id="sex_f" class="register-switch-input" checked>
-      <label for="sex_f" class="register-switch-label">Female</label>
-      <input type="radio" name="sex" value="M" id="sex_m" class="register-switch-input">
-      <label for="sex_m" class="register-switch-label">Male</label>
-    </div>
-    <input type="name" class="register-input" placeholder="Name/Discord Tag" name="discordtag">
-    <input type="submit" value="Add New Name" class="register-button">
-  </form>
-  </div>
-</div>
   <!-- end content -->
+   </div>
   </div>
-</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="static/js/as.js"></script>
+<script src="static/js/as.js"></script>
 </html>

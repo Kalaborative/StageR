@@ -1,6 +1,7 @@
 # import the necessary modules
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
+from time import sleep
 from os import environ
 
 # start a Flask app
@@ -9,7 +10,7 @@ app = Flask(__name__)
 # Declare global variables
 firstUserData = []
 
-# The makeata function handles new user registration on any page.
+# The makedata function handles new user registration on any page.
 def makedata():
 	with sqlite3.connect("tags.db") as connection:
 		c = connection.cursor()
@@ -45,7 +46,7 @@ def index():
 		c.execute("SELECT * FROM current")
 		myUsers = c.fetchall()
 		global firstUserData
-		# if the lenggth of users is more than 0, we need to pull the first name
+		# if the length of users is more than 0, we need to pull the first name
 		if len(myUsers) > 0:
 			firstUserData = myUsers.pop(-0)
 		else:
@@ -102,6 +103,33 @@ def skipSinger():
 		singer = (firstUserData[1])
 		# here, we don't need to increment. Just delete the record in current.
 		c.execute("DELETE FROM current WHERE name=?", [singer])
+		c.execute("SELECT * FROM current")
+		myUsers = c.fetchall()
+		if len(myUsers) > 0:
+			firstUserData = myUsers.pop(-0)
+		else:
+			firstUserData = None
+		return render_template("index.html", users=myUsers, first=firstUserData)
+
+# decorator for resetting the history data
+@app.route('/resetd', methods=["GET", "POST"])
+def resetHistory():
+	if request.method == "POST":
+		makedata()
+		with sqlite3.connect("tags.db") as connection:
+			c = connection.cursor()
+			c.execute("SELECT * FROM current")
+			myUsers = c.fetchall()
+			global firstUserData
+			if len(myUsers) > 0:
+				firstUserData = myUsers.pop(-0)
+			else:
+				firstUserData = None
+			return render_template("index.html", users=myUsers, first=firstUserData)
+	with sqlite3.connect('tags.db') as connection:
+		c = connection.cursor()
+		c.execute("DELETE FROM history")
+		sleep(2)
 		c.execute("SELECT * FROM current")
 		myUsers = c.fetchall()
 		if len(myUsers) > 0:
