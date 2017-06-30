@@ -15,4 +15,8 @@ $(document).ready(function(){
 		$(this).css("color", "#5cb811");
 		document.getElementById('resetSingers').innerHTML = "Reset! Now refreshing...";
 	});
+    $("#btn-copier").click(function(){
+        $(this).css("color", "#b0f7fc");
+        document.getElementById('btn-copier').innerHTML = "Copied!";
+    });
 });

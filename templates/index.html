@@ -2,7 +2,6 @@
 <html>
   <head>
 	 <title>StageR</title>
-   <link rel="stylesheet" href="static/css/alertify.css">
 	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	 <link rel="stylesheet" type="text/css" href="static/css/style.css">
    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
@@ -71,7 +70,7 @@
                 {% if users|length > 4 %}
                   <div class="chat_inner_scroll">
                 {% else %}
-                  <div class="chat_inner">
+                  <div class="chat_inner" id="foo">
                 {% endif %}
                 {% for u in users %}
                   {% if 'M' in u[0] %}
@@ -80,7 +79,7 @@
                         <img src="static/img/boyusericon.png" />
                       </div>
                       <div class="message">
-                        {{ u[1] }}
+                        {{ u[1] }} 
                       </div>
                     </div>
                   {% elif 'F' in u[0] %}
@@ -89,7 +88,7 @@
                         <img src="static/img/girlusericon.png" />
                       </div>
                       <div class="message">
-                        {{ u[1] }}
+                        {{ u[1] }} 
                       </div>
                     </div>
                   {% endif %}
@@ -98,8 +97,10 @@
                 <div class="footer">
               {% if users|length == 1 %}
                 <a href="#" id="queueButton"><button><i class="fa fa-music"></i> 1 person waiting!</button></a>
+                <button id="btn-copier" data-clipboard-target="Current queue: {% for u in users %}{{ u[1] }} {% endfor %}"><i class="fa fa-files-o"></i> Copy queue</button>
               {% elif users|length > 1 %}
                 <a href="#" id="queueButton"><button><i class="fa fa-music"></i> {{ users|length }} people waiting!</button></a>
+                <button id="btn-copier" data-clipboard-text="Current queue: {% for u in users %}{{ u[1] }} {% endfor %}"><i class="fa fa-files-o"></i> Copy queue</button>
               {% endif %}
                 </div>
               </div>
@@ -126,6 +127,10 @@
    </div>
   </div>
 </body>
+<script src="static/js/clipboard.min.js"></script>
+<script type="text/javascript">
+  new Clipboard('#btn-copier');
+</script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="static/js/as.js"></script>
 </html>
