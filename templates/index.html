@@ -6,6 +6,10 @@
 	 <link rel="stylesheet" type="text/css" href="static/css/style.css">
    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
    <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
+   <meta charset='utf-8'>
+   {% if first %}
+    <meta http-equiv="refresh" content="15">
+   {% endif %}
   </head>
   <body>
 	   <div class="wrapper">
@@ -66,11 +70,14 @@
             <div class="head">
               <i class="fa fa-bell"></i>
                 Queue
+                {% if users|length > 0 %}
+              <span class="details">{{ users|length }} TOTAL</span>
+                {% endif %}
             </div>
                 {% if users|length > 4 %}
                   <div class="chat_inner_scroll">
                 {% else %}
-                  <div class="chat_inner" id="foo">
+                  <div class="chat_inner">
                 {% endif %}
                 {% for u in users %}
                   {% if 'M' in u[0] %}
@@ -96,10 +103,10 @@
                 </div>
                 <div class="footer">
               {% if users|length == 1 %}
-                <a href="#" id="queueButton"><button><i class="fa fa-music"></i> 1 person waiting!</button></a>
+                <!-- <a href="#" id="queueButton"><button><i class="fa fa-music"></i> 1 person waiting!</button></a> -->
                 <button id="btn-copier" data-clipboard-target="Current queue: {% for u in users %}{{ u[1] }} {% endfor %}"><i class="fa fa-files-o"></i> Copy queue</button>
               {% elif users|length > 1 %}
-                <a href="#" id="queueButton"><button><i class="fa fa-music"></i> {{ users|length }} people waiting!</button></a>
+                <!-- <a href="#" id="queueButton"><button><i class="fa fa-music"></i> {{ users|length }} people waiting!</button></a> -->
                 <button id="btn-copier" data-clipboard-text="Current queue: {% for u in users %}{{ u[1] }} {% endfor %}"><i class="fa fa-files-o"></i> Copy queue</button>
               {% endif %}
                 </div>
@@ -111,7 +118,7 @@
           <div id="signup" class="modalbg">
             <div class="dialog">
               <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
-              <form class="register" action="" method="post">
+              <form class="register" action="{{url_for('index')}}" method="post">
                 <div class="register-switch">
                   <input type="radio" name="sex" value="F" id="sex_f" class="register-switch-input" checked>
                   <label for="sex_f" class="register-switch-label">Female</label>

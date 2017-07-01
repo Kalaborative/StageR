@@ -40,7 +40,15 @@ def makedata():
 def index():
 	if request.method == "POST":
 		makedata()
-		return redirect(url_for("index"))
+		with sqlite3.connect("tags.db") as connection:
+			c = connection.cursor()
+			c.execute("SELECT * FROM current")
+			myUsers = c.fetchall()
+			if len(myUsers) > 0:
+				firstUserData = myUsers.pop(-0)
+			else:
+				firstUserData = None
+			return render_template("index.html", users=myUsers, first=firstUserData)
 	with sqlite3.connect("tags.db") as connection:
 		c = connection.cursor()
 		c.execute("SELECT * FROM current")
@@ -81,7 +89,7 @@ def nextSinger():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		return render_template("index.html", users=myUsers, first=firstUserData)
+		return redirect(url_for("index"))
 
 # decorator for the 'skip' button
 @app.route('/skip', methods=["GET", "POST"])
@@ -109,7 +117,7 @@ def skipSinger():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		return render_template("index.html", users=myUsers, first=firstUserData)
+		return redirect(url_for('index'))
 
 # decorator for resetting the history data
 @app.route('/resetd', methods=["GET", "POST"])
@@ -136,7 +144,12 @@ def resetHistory():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		return render_template("index.html", users=myUsers, first=firstUserData)
+		return redirect(url_for('index'))
+
+
+@app.route("/edit")
+def edit():
+	return render_template("edit.html")
 
 
 if __name__ == "__main__":
