@@ -1,22 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Edit Queue</title>
+	<title>StageR</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700">
+	<link rel="stylesheet prefetch" href="https://raubarrera.neocities.org/cdpn/style.css">
 	<link rel="stylesheet" href="static/css/edit.css">
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 	<form action="" method="post">
-	<section id="header-container">
-	  <select>
-	    <option disabled>Choose person...</option>
-	    <option>Inception</option>
-	    <option>Godzilla</option>
-	    <option>Back to the future</option>
-	    <option>Shutter Island</option>
-	  </select>
-	  <button type="submit" class="submit"><i class="fa fa-long-arrow-right"></i></button>
-	</section>
+		<div class="center-on-page">
+			{% if edit == "del" %}
+  			<h1>Choose the person you want to delete.</h1>
+  			<div class="select">
+    			<select name="slct" id="slct">
+      				{% for n in names %}
+      				<option>{{n}}</option>
+      				{% endfor %}
+    			</select>
+  			</div>
+  			<div class="button" onclick="javascript:document.forms[0].submit();">
+				<div class="submit"><h3>Submit</h3></div>
+				<div class="arrow">
+					<div class="top line"></div>
+					<div class="bottom line"></div>
+				</div>
+			</div>
+			{% elif edit == "ren" %}
+			<h1>Choose the person you want to rename.</h1>
+  			<div class="select">
+    			<select name="slct" id="slct">
+      				{% for n in names %}
+      				<option>{{n}}</option>
+      				{% endfor %}
+    			</select>
+  			</div>
+  			<input type="text" name="newname" placeholder="Type correction here!">
+  			<div class="button" onclick="javascript:document.forms[0].submit();">
+				<div class="submit"><h3>Submit</h3></div>
+				<div class="arrow">
+					<div class="top line"></div>
+					<div class="bottom line"></div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
 	</form>
-	<script src="static/js/cuteselect.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="static/js/cutesubmit.js"></script>
+</body>
 </html>

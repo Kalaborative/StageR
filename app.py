@@ -147,10 +147,39 @@ def resetHistory():
 		return redirect(url_for('index'))
 
 
-@app.route("/edit")
-def edit():
-	return render_template("edit.html")
+@app.route("/delete", methods=["GET", "POST"])
+def delete():
+	editType = "del"
+	if request.method == "POST":
+		deleteUser = (request.form['slct'])
+		with sqlite3.connect('tags.db') as connection:
+			c = connection.cursor()
+			c.execute("DELETE FROM current WHERE name=?", [deleteUser])
+			return redirect(url_for('index'))
+	with sqlite3.connect('tags.db') as connection:
+		c = connection.cursor()
+		c.execute("SELECT name FROM current")
+		allNames = c.fetchall()[1:]
+		allNames = [a[0] for a in allNames]
+		return render_template("edit.html", edit=editType, names=allNames)
 
+@app.route("/rename", methods=["GET", "POST"])
+def rename():
+	editType = "ren"
+	if request.method == "POST":
+		oldUser = request.form['slct']
+		newUser = request.form['newname']
+		changeUser = (newUser, oldUser)
+		with sqlite3.connect('tags.db') as connection:
+			c = connection.cursor()
+			c.execute("UPDATE current SET name=? WHERE name=?", changeUser)
+			return redirect(url_for('index'))
+	with sqlite3.connect('tags.db') as connection:
+		c = connection.cursor()
+		c.execute("SELECT name FROM current")
+		allNames = c.fetchall()[1:]
+		allNames = [a[0] for a in allNames]
+	return render_template("edit.html", edit=editType, names=allNames)
 
 if __name__ == "__main__":
 	# convention to run on Heroku
