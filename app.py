@@ -44,6 +44,7 @@ def index():
 			c = connection.cursor()
 			c.execute("SELECT * FROM current")
 			myUsers = c.fetchall()
+			global firstUserData
 			if len(myUsers) > 0:
 				firstUserData = myUsers.pop(-0)
 			else:
@@ -53,7 +54,6 @@ def index():
 		c = connection.cursor()
 		c.execute("SELECT * FROM current")
 		myUsers = c.fetchall()
-		global firstUserData
 		# if the length of users is more than 0, we need to pull the first name
 		if len(myUsers) > 0:
 			firstUserData = myUsers.pop(-0)
