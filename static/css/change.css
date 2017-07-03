@@ -3,6 +3,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300italic,400italic,400,100,300,600,700);
 * {
   box-sizing: border-box;
+  cursor: url(../img/Wedge.png), auto;
 }
 
 body {

@@ -2,6 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300);
 * {
   box-sizing: border-box;
+  cursor: url(../img/Wedge.png), auto;
 }
 
 body {
