@@ -181,6 +181,10 @@ def rename():
 		allNames = [a[0] for a in allNames]
 	return render_template("edit.html", edit=editType, names=allNames)
 
+@app.route('/log')
+def log():
+	return render_template('log.html')
+
 if __name__ == "__main__":
 	# convention to run on Heroku
 	port = int(environ.get("PORT", 5000))
