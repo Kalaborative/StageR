@@ -1,53 +1,156 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>StageR</title>
-	<link href='https://fonts.googleapis.com/css?family=Roboto:300italic,400italic,400,100,300,600,700' rel='stylesheet' type='text/css'>
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-	<link rel="stylesheet" href="static/css/log.css">
-	<meta charset='utf-8'>
-	<link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+  <head>
+	 <title>StageR</title>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+   <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+	 <link rel="stylesheet" type="text/css" href="static/css/change.css">
+   <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
    <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
-</head>
-<body>
-	<div class="information message">
-  		<h2>July 2 2017</h2>
-		<p><i class="em em-scissors"></i><strong> The queue is now editable. </strong>Accidentally signed up? Misspelled a name? This small update implements the ability to edit the queue so you can rename or delete names in the queue!</p>
-	</div>
-	<div class="success message">
-	  <h2>July 1 2017</h2>
-		<p><i class="em em-heavy_check_mark"></i><strong> Fixed the automatic popup. </strong>Remember when you added people, it would automatically pop up again every time you refreshed the page? It's been fixed now. Additionally, the redirects have been fixed to go to the main index page.</p>
-		<p><i class="em em-recycle"></i><strong> Automatic refresh capability. </strong>When multiple people are using the queue, it can cause some desync to occur. Now (only when someone is in queue) the page will auto-refresh about every 20 seconds. Hopefully this is enough time to enter names as well.</p>
-		<p><i class="em em-seedling"></i><strong> Customization improvments. </strong>Just some small customization done. Some cute little music notes will appear in the "Now singing" panel!</p>
-	</div>
-	<div class="information message">
-  		<h2>June 30 2017</h2>
-		<p><strong>📑 Copy the queue. </strong>Thanks to clipboard.JS, it's now possible to copy the current queue in one click! </p>
-		<p><strong>📌 Notification badge. </strong>Because I thought it would be pretty useless to have this show as a button, it has now been redesigned to appear as a notification badge. So now the number of singers will appear at the top! Much cleaner.</p>
-	</div>
-	<div class="information message">
-  		<h2>June 28 2017</h2>
-		<p><i class="em em-pencil2"></i><strong> Reset singer history function. </strong>Before this, every time someone went through the queue, they were stuck in the performance history permanently. Now the history can be cleared with each new event!</p>
-		<p><i class="em em-arrow_double_up"></i><strong> Scrollable queue. </strong>When you added more people to the queue, the queue box would just keep getting bigger and bigger. Now it's set to a fixed size and you can now scroll through the queue. Complete with a customized scroll bar!</p>
-	</div>
-	<!-- <div class="announcement message">
-	  <h2>Announcement</h2>
-	<p>This is an 'announcement message' div! It is loud and proud to say things that you want people to hear first!</p>
-	</div> -->
-	<!-- <div class="success message">
-	  <h2>Success</h2>
-	<p>This is a 'success message' div. It is shown if a goal is reached or something is accomplished.</p>
-	</div> -->
-	<!-- <div class="warning message">
-	  <h2>Warning</h2>
-		<p>This is a 'warning message' div. It warns the users that to expect some changes or limitations.</p>
-	</div> -->
-	<!-- <div class="error message">
-  		<h2>Error</h2>
-		<p>This is an 'error message' div. It stresses that there is an immediate problem. this should be used sparingly.</p>
-	</div> -->
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+   <meta charset='utf-8'>
+  </head>
+  <body>
+	   <div class="wrapper">
+      <div class="wrapper_container">
+        <!-- start content -->
+        <div class="site-wrapper active" id="target">
+          <div class="site-wrapper_left-col">
+            <a rel="nofollow" rel="noreferrer" class="logo" href="{{url_for('index')}}">StageR</a>
+            <div class="left-nav">
+              <a rel="nofollow" rel="noreferrer" href="{{url_for('index')}}" id="singers"><i class="fa fa-microphone"></i>Singers</a>
+              <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add a new singer</a>
+              <a rel="nofollow" rel="noreferrer"href="{{url_for('resetHistory')}}" id="resetSingers"><i class="fa fa-refresh"></i>Reset singer history</a>
+              <a rel="nofollow" rel="noreferrer" class="active" href="{{url_for('log')}}"><i class="fa fa-paint-brush"></i>Changelog</a>
+            </div>
+          </div>
+          <div class="site-wrapper_top-bar">
+            <a rel="nofollow" rel="noreferrer" id="toggle"><i class="fa fa-bars"></i></a>
+          </div>
+          <!-- inner content -->
+          <div class="row">
+            <div class="col-1">
+              <div class="user-item">
+                <div class="user-item_info">
+                  <h1>The person up next is...</h1>
+                </div>
+              <div class="user-item_info">
+                {% if first%}
+                  {% if 'M' in first[0] %}
+                    <img src="static/img/boyusericon.png" />
+                  {% elif 'F' in first[0] %}
+                    <img src="static/img/girlusericon.png" />
+                  {% endif %}
+                  <p class="name" id="currentSinger">🎵 {{first[1]}} 🎵 </p>
+                  {% if first[2] == 0 %}
+                    <p class="sub">This person has not sang before.</p>
+                  {% elif first[2] == 1 %}
+                    <p class="sub">This person has sang once.</p>
+                  {% else %}
+                    <p class="sub">This person has sang {{first[2]}} times.</p>
+                  {% endif %}
+                  <div class="controls">
+                    <a rel="nofollow" rel="noreferrer"href="{{url_for('nextSinger')}}" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
+                      <span class="tooltiptext">Next</span>
+                    </a>
+                  </div>
+                  <div class="controls">
+                    <a rel="nofollow" rel="noreferrer"href="{{url_for('skipSinger')}}" id="skip" class="tooltipB"><i class="fa fa-eraser"></i>
+                      <span class="tooltiptext">Skip</span>
+                    </a>
+                  </div>
+                {% else %}
+                  <p class="name" id="currentSinger">No one! Add someone first. :)</p>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="chat">
+            <div class="head">
+              <i class="fa fa-bell"></i>
+                Queue
+                {% if users|length > 0 %}
+              <span class="details">{{ users|length }} TOTAL</span>
+                {% endif %}
+            </div>
+            <div class="chat_inner_scroll">
+              <div class="chat_inner-item right">
+                <div class="message success log">
+                  <h2>Latest Update</h2>
+                </div>
+              </div>
+              <div class="chat_inner-item">
+                <div class="message log">
+                  <i class="em em-scissors"></i><strong> The queue is now editable. </strong>Accidentally signed up? Misspelled a name? This small update implements the ability to edit the queue so you can rename or delete names in the queue!
+                </div>
+              </div>
+              <div class="chat_inner-item">
+                <div class="message log">
+                 That's it! Click any of these messages to make them disappear.
+                </div>
+              </div>
+              {% for u in users %}
+                  {% if 'M' in u[0] %}
+                    <div class="chat_inner-item">
+                      <div class="photo">
+                        <img src="static/img/boyusericon.png" />
+                      </div>
+                      <div class="message">
+                        {{ u[1] }} 
+                      </div>
+                    </div>
+                  {% elif 'F' in u[0] %}
+                    <div class="chat_inner-item">
+                      <div class="photo">
+                        <img src="static/img/girlusericon.png" />
+                      </div>
+                      <div class="message">
+                        {{ u[1] }} 
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+            </div>
+            <div class="footer">
+                <a href="{{url_for('fullLog')}}"><button><i class="fa fa-star"></i> Click here for the full changelog!</button></a>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+    <!-- end inner content -->
+    </div>
+    <div id="signup" class="modalbg">
+            <div class="dialog">
+              <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
+              <form class="register" action="{{url_for('index')}}" method="post">
+                <div class="register-switch">
+                  <input type="radio" name="sex" value="F" id="sex_f" class="register-switch-input" checked>
+                  <label for="sex_f" class="register-switch-label">Female</label>
+                  <input type="radio" name="sex" value="M" id="sex_m" class="register-switch-input">
+                  <label for="sex_m" class="register-switch-label">Male</label>
+                </div>
+                <input type="name" class="register-input" placeholder="Name/Discord Tag" name="discordtag">
+                <input type="submit" value="Add New Name" class="register-button">
+              </form>
+            </div>
+          </div>
+  <!-- end content -->
+   </div>
+  </div>
 </body>
+<script src="static/js/clipboard.min.js"></script>
+<script type="text/javascript">
+  new Clipboard('#btn-copier');
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="static/js/as.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.log').click(function(){
+      $(this).fadeOut('fast');
+    });
+  });
+</script>
 </html>

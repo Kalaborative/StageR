@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300italic,400italic,400,100,300,600,700);
 * {
   box-sizing: border-box;
 }
@@ -380,6 +381,12 @@ body {
   height: 260px;
   margin: 10px;
 }
+h2{
+  font-weight: 100;
+  font-size: 30pt;
+  line-height: 1.3em;
+  margin: 15px 0;
+}
 .chat_inner_scroll::-webkit-scrollbar-track
 {
 	border-radius: 10px;
@@ -424,17 +431,21 @@ body {
      object-fit: cover;
 }
 .chat_inner-item .message {
+  font-family: Roboto;
   padding: 12px 20px;
   background-color: #ECECEC;
   border-radius: 5px;
   color: #808080;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 .chat_inner-item .message ~ .photo {
   margin-right: 0;
   margin-left: 10px;
 }
-.chat_inner-item.right {
+.message.success {
+    background-color: rgba(97, 159, 97, 0.71);
+    color: white;
+}.chat_inner-item.right {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;

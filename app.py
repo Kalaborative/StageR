@@ -181,9 +181,33 @@ def rename():
 		allNames = [a[0] for a in allNames]
 	return render_template("edit.html", edit=editType, names=allNames)
 
-@app.route('/log')
+@app.route('/log', methods=["GET", "POST"])
 def log():
-	return render_template('log.html')
+	if request.method == "POST":
+		makedata()
+		with sqlite3.connect("tags.db") as connection:
+			c = connection.cursor()
+			c.execute("SELECT * FROM current")
+			myUsers = c.fetchall()
+			global firstUserData
+			if len(myUsers) > 0:
+				firstUserData = myUsers.pop(-0)
+			else:
+				firstUserData = None
+			return render_template("index.html", users=myUsers, first=firstUserData)
+	with sqlite3.connect("tags.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT * FROM current")
+		myUsers = c.fetchall()
+		if len(myUsers) > 0:
+			firstUserData = myUsers.pop(-0)
+		else:
+			firstUserData = None
+		return render_template('log.html', users=myUsers, first=firstUserData)
+
+@app.route('/logfull')
+def fullLog():
+	return render_template('fulllog.html')
 
 if __name__ == "__main__":
 	# convention to run on Heroku
