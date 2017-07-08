@@ -8,7 +8,7 @@
    <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
    <meta charset='utf-8'>
    {% if first %}
-    <meta http-equiv="refresh" content="15">
+    <!--<meta http-equiv="refresh" content="15"> -->
    {% endif %}
   </head>
   <body>
@@ -37,11 +37,7 @@
                 </div>
               <div class="user-item_info">
                 {% if first%}
-                  {% if 'M' in first[0] %}
-                    <img src="static/img/boyusericon.png" />
-                  {% elif 'F' in first[0] %}
-                    <img src="static/img/girlusericon.png" />
-                  {% endif %}
+                    <img src="static/img/{{first[0]}}" />
                   <p class="name" id="currentSinger">🎵 {{first[1]}} 🎵 </p>
                   {% if first[2] == 0 %}
                     <p class="sub">This person has not sang before.</p>
@@ -81,25 +77,14 @@
                   <div class="chat_inner">
                 {% endif %}
                 {% for u in users %}
-                  {% if 'M' in u[0] %}
                     <div class="chat_inner-item">
                       <div class="photo">
-                        <img src="static/img/boyusericon.png" />
+                        <img src="static/img/{{u[0]}}" />
                       </div>
                       <div class="message">
                         {{ u[1] }} 
                       </div>
                     </div>
-                  {% elif 'F' in u[0] %}
-                    <div class="chat_inner-item">
-                      <div class="photo">
-                        <img src="static/img/girlusericon.png" />
-                      </div>
-                      <div class="message">
-                        {{ u[1] }} 
-                      </div>
-                    </div>
-                  {% endif %}
                 {% endfor %}
                 </div>
                 <div class="footer">
@@ -122,12 +107,6 @@
             <div class="dialog">
               <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
               <form class="register" action="{{url_for('index')}}" method="post">
-                <div class="register-switch">
-                  <input type="radio" name="sex" value="F" id="sex_f" class="register-switch-input" checked>
-                  <label for="sex_f" class="register-switch-label">Female</label>
-                  <input type="radio" name="sex" value="M" id="sex_m" class="register-switch-input">
-                  <label for="sex_m" class="register-switch-label">Male</label>
-                </div>
                 <input type="name" class="register-input" placeholder="Name/Discord Tag" name="discordtag">
                 <input type="submit" value="Add New Name" class="register-button">
               </form>

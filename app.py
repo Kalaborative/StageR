@@ -1,6 +1,7 @@
 # import the necessary modules
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
+from random import choice
 from time import sleep
 from os import environ
 
@@ -9,6 +10,8 @@ app = Flask(__name__)
 
 # Declare global variables
 firstUserData = []
+animals = ["deer.gif", "dog_1.gif", "dog_2.gif", "elephant.gif", "fox.gif", "koala.gif", "lion.gif", "monkey.gif", "moose.gif", "pig.gif", "raccoon.gif", "squirrel.gif"]
+
 
 # The makedata function handles new user registration on any page.
 def makedata():
@@ -19,18 +22,18 @@ def makedata():
 		histdata = c.fetchall()
 		# this code flattens the list
 		histdata = [h[0] for h in histdata]
-		inputsex = request.form["sex"]
+		inputan = choice(animals)
 		inputname = request.form["discordtag"]
 		# declare a match var that will tell if the for loop finds a match or not
 		match = False
 		# the default batch
-		batch = [(inputsex, inputname, 0)]
+		batch = [(inputan, inputname, 0)]
 		for hist in histdata:
 			if inputname == hist:
 				c.execute("SELECT singTimes FROM history WHERE name=?", [(inputname)])
 				actualTimes = c.fetchone()[0]
 				match = True
-				batch = [(inputsex, inputname, actualTimes)]
+				batch = [(inputan, inputname, actualTimes)]
 		c.executemany("INSERT INTO current VALUES(?,?,?)", batch)
 		if not match:
 			c.executemany("INSERT INTO history VALUES(?,?,?)", batch)
