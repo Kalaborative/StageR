@@ -473,6 +473,7 @@ body {
 }
 .modalbg .dialog {
   width: 400px;
+  position: relative;
   top: -1000px;
   margin: 10% auto;
   padding: 5px 20px 13px 20px;
@@ -501,7 +502,7 @@ body {
 }
 .modalbg:target .dialog {
   top: -20px;
-  /* -webkit-transition: all 0.8s ease-out; */
+  -webkit-transition: all 0.8s ease-out;
   -o-transition: all 0.8s ease-out;
   transition: all 0.8s ease-out;
   -webkit-transition-delay: 0.4s;
