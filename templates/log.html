@@ -35,11 +35,7 @@
                 </div>
               <div class="user-item_info">
                 {% if first%}
-                  {% if 'M' in first[0] %}
-                    <img src="static/img/boyusericon.png" />
-                  {% elif 'F' in first[0] %}
-                    <img src="static/img/girlusericon.png" />
-                  {% endif %}
+                  <img src="static/img/{{first[0]}}" />
                   <p class="name" id="currentSinger">🎵 {{first[1]}} 🎵 </p>
                   {% if first[2] == 0 %}
                     <p class="sub">This person has not sang before.</p>
@@ -81,7 +77,12 @@
               </div>
               <div class="chat_inner-item">
                 <div class="message log">
-                  <i class="em em-sparkles"></i><strong> Custom cursor. </strong>Thought it would be nice to have a little more customization. Also comes with a little click animation. Enjoy!
+                  <i class="em em-camera"></i><strong> Redesigned images. </strong>We've eliminated the hassle of choosing male or female and instead replaced it with a random animal image!
+                </div>
+              </div>
+              <div class="chat_inner-item">
+                <div class="message log">
+                  <i class="em em-yellow_heart"></i><strong> New color scheme. </strong>Some new colors here and there to make the site better looking. Now your name has a glow effect! Lit!
                 </div>
               </div>
               <div class="chat_inner-item">
