@@ -37,6 +37,7 @@ def makedata():
 		c.executemany("INSERT INTO current VALUES(?,?,?)", batch)
 		if not match:
 			c.executemany("INSERT INTO history VALUES(?,?,?)", batch)
+			c.executemany("INSERT INTO permanent VALUES(?,?,?)", batch)
 
 # the default route decorator
 @app.route("/", methods=["GET", "POST"])
@@ -85,6 +86,7 @@ def nextSinger():
 		# as well as remove the user from the 'current' queue.
 		singer = (firstUserData[1])
 		c.execute("UPDATE history SET singTimes = singTimes + 1 WHERE name=?", [singer])
+		c.execute("UPDATE permanent SET singTimes = singTimes + 1 WHERE name=?", [singer])
 		c.execute("DELETE FROM current WHERE name=?", [singer])
 		c.execute("SELECT * FROM current")
 		myUsers = c.fetchall()
@@ -176,6 +178,17 @@ def rename():
 		with sqlite3.connect('tags.db') as connection:
 			c = connection.cursor()
 			c.execute("UPDATE current SET name=? WHERE name=?", changeUser)
+			c.execute("DELETE FROM history WHERE name=?", [oldUser])
+			c.execute("DELETE FROM permanent WHERE name=?", [oldUser])
+			c.execute("SELECT name FROM history")
+			match = False
+			histNames = c.fetchall()
+			for h in histNames:
+				if newUser == h:
+					match = True
+			if not match:
+				c.execute("INSERT INTO history VALUES(?,?,?)", (choice(animals), newUser, 0))
+				c.execute("INSERT INTO permanent VALUES(?,?,?)", (choice(animals), newUser, 0))
 			return redirect(url_for('index'))
 	with sqlite3.connect('tags.db') as connection:
 		c = connection.cursor()
@@ -211,6 +224,24 @@ def log():
 @app.route('/logfull')
 def fullLog():
 	return render_template('fulllog.html')
+
+@app.route('/stats')
+def stats():
+	with sqlite3.connect('tags.db') as connection:
+		c = connection.cursor()
+		c.execute("SELECT singTimes from permanent")
+		allTimes = c.fetchall()
+		realTimes = [a[0] for a in allTimes]
+		totalTimes = sum(realTimes)
+		percentages = []
+		for r in realTimes:
+			pctvalue = int(round((r * 1.00 / totalTimes) * 100))
+			percentages.append(pctvalue)
+		c.execute("SELECT name from permanent")
+		allNames = c.fetchall()
+		realNames = [a[0] for a in allNames]
+		statData = zip(realNames, percentages)
+		return render_template('stats.html', stats=statData)
 
 if __name__ == "__main__":
 	# convention to run on Heroku

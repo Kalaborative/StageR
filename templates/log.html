@@ -91,25 +91,14 @@
                 </div>
               </div>
               {% for u in users %}
-                  {% if 'M' in u[0] %}
                     <div class="chat_inner-item">
                       <div class="photo">
-                        <img src="static/img/boyusericon.png" />
+                        <img src="static/img/{{u[0]}}" />
                       </div>
                       <div class="message">
                         {{ u[1] }} 
                       </div>
                     </div>
-                  {% elif 'F' in u[0] %}
-                    <div class="chat_inner-item">
-                      <div class="photo">
-                        <img src="static/img/girlusericon.png" />
-                      </div>
-                      <div class="message">
-                        {{ u[1] }} 
-                      </div>
-                    </div>
-                  {% endif %}
                 {% endfor %}
             </div>
             <div class="footer">
