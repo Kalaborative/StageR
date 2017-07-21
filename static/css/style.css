@@ -211,7 +211,7 @@ body {
   font-weight: bold;
   margin-bottom: 5px;
 }
-.user-item_info .name{
+.user-item_info .glowing{
   -webkit-animation: neon3 1.5s ease-in-out infinite alternate;
 }
 @-webkit-keyframes neon3 {

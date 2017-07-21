@@ -25,6 +25,7 @@
               <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add a new singer</a>
               <a rel="nofollow" rel="noreferrer"href="{{url_for('resetHistory')}}" id="resetSingers"><i class="fa fa-refresh"></i>Reset singer history</a>
               <a rel="nofollow" rel="noreferrer"href="{{url_for('log')}}" id="chlog"><i class="fa fa-paint-brush"></i>Changelog</a>
+              <a rel="nofollow" rel="noreferrer"href="{{url_for('stats')}}"><i class="fa fa-bar-chart"></i>Statistics</a>
             </div>
           </div>
           <div class="site-wrapper_top-bar">
@@ -40,7 +41,7 @@
               <div class="user-item_info">
                 {% if first%}
                     <img src="static/img/{{first[0]}}" />
-                  <p class="name" id="currentSinger">🎵 {{first[1]}} 🎵 </p>
+                  <p class="name glowing" id="currentSinger">🎵 {{first[1]}} 🎵 </p>
                   {% if first[2] == 0 %}
                     <p class="sub">This person has not sang before.</p>
                   {% elif first[2] == 1 %}
