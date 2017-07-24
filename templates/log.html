@@ -21,6 +21,7 @@
               <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add a new singer</a>
               <a rel="nofollow" rel="noreferrer"href="{{url_for('resetHistory')}}" id="resetSingers"><i class="fa fa-refresh"></i>Reset singer history</a>
               <a rel="nofollow" rel="noreferrer" class="active" href="{{url_for('log')}}"><i class="fa fa-paint-brush"></i>Changelog</a>
+              <a rel="nofollow" rel="noreferrer"href="{{url_for('stats')}}"><i class="fa fa-bar-chart"></i>Statistics</a>
             </div>
           </div>
           <div class="site-wrapper_top-bar">
@@ -77,12 +78,12 @@
               </div>
               <div class="chat_inner-item">
                 <div class="message log">
-                  <i class="em em-camera"></i><strong> Redesigned images. </strong>We've eliminated the hassle of choosing male or female and instead replaced it with a random animal image!
+                  <i class="em em-rocket"></i><strong> Fixed the glow effect. </strong>The glow effect would still happene even if no one was in the queue. That's been fixed!
                 </div>
               </div>
               <div class="chat_inner-item">
                 <div class="message log">
-                  <i class="em em-yellow_heart"></i><strong> New color scheme. </strong>Some new colors here and there to make the site better looking. Now your name has a glow effect! Lit!
+                  <i class="em em-bar_chart"></i><strong> Statistics. </strong>You can now see how many times someone has sung compared to everyone else!
                 </div>
               </div>
               <div class="chat_inner-item">
@@ -96,7 +97,7 @@
                         <img src="static/img/{{u[0]}}" />
                       </div>
                       <div class="message">
-                        {{ u[1] }} 
+                        {{ u[1] }}
                       </div>
                     </div>
                 {% endfor %}
@@ -115,12 +116,6 @@
             <div class="dialog">
               <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
               <form class="register" action="{{url_for('index')}}" method="post">
-                <div class="register-switch">
-                  <input type="radio" name="sex" value="F" id="sex_f" class="register-switch-input" checked>
-                  <label for="sex_f" class="register-switch-label">Female</label>
-                  <input type="radio" name="sex" value="M" id="sex_m" class="register-switch-input">
-                  <label for="sex_m" class="register-switch-label">Male</label>
-                </div>
                 <input type="name" class="register-input" placeholder="Name/Discord Tag" name="discordtag">
                 <input type="submit" value="Add New Name" class="register-button">
               </form>
@@ -157,9 +152,9 @@ function explode(e) {
   var ctx = c.getContext('2d')
   var ratio = window.devicePixelRatio
   var particles = []
-  
+
   document.body.appendChild(c)
-  
+
   c.style.position = 'absolute'
   c.style.left = (x - 50) + 'px'
   c.style.top = (y - 50) + 'px'
@@ -168,7 +163,7 @@ function explode(e) {
   c.style.height = 100 + 'px'
   c.width = 100 * ratio
   c.height = 100 * ratio
-  
+
   function Particle() {
     return {
       x: c.width / 2,
@@ -183,30 +178,30 @@ function explode(e) {
       gravity: 0
     }
   }
-  
+
   for(var i=0; ++i<15;) {
     particles.push(Particle())
   }
-  
-  
-  
+
+
+
   function render() {
     ctx.clearRect(0, 0, c.width, c.height)
-    
+
     particles.forEach(function(p, i) {
-      
+
       angleTools.moveOnAngle(p, p.speed)
-      
+
       p.opacity -= 0.01
       p.speed *= p.friction
       p.radius *= p.friction
-      
+
       p.yVel += p.gravity
       p.y += p.yVel
-      
+
       if(p.opacity < 0) return
       if(p.radius < 0) return
-      
+
       ctx.beginPath()
       ctx.globalAlpha = p.opacity
       ctx.fillStyle = p.color
@@ -214,12 +209,12 @@ function explode(e) {
       ctx.fill()
     })
   }
-  
+
   ;(function renderLoop(){
     requestAnimationFrame(renderLoop)
     render()
   })()
-  
+
   setTimeout(function() {
     document.body.removeChild(c)
   }, 3000)
