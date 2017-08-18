@@ -45,16 +45,6 @@
                   {% else %}
                     <p class="sub">This person has sang {{first[2]}} times.</p>
                   {% endif %}
-                  <div class="controls">
-                    <a rel="nofollow" rel="noreferrer"href="{{url_for('nextSinger')}}" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
-                      <span class="tooltiptext">Next</span>
-                    </a>
-                  </div>
-                  <div class="controls">
-                    <a rel="nofollow" rel="noreferrer"href="{{url_for('skipSinger')}}" id="skip" class="tooltipB"><i class="fa fa-eraser"></i>
-                      <span class="tooltiptext">Skip</span>
-                    </a>
-                  </div>
                 {% else %}
                   <p class="name" id="currentSinger">No one! Add someone first. :)</p>
                 {% endif %}
@@ -78,12 +68,12 @@
               </div>
               <div class="chat_inner-item">
                 <div class="message log">
-                  <i class="em em-rocket"></i><strong> Fixed the glow effect. </strong>The glow effect would still happene even if no one was in the queue. That's been fixed!
+                  <i class="em em-blue_heart"></i><strong> Say hello to our newest major implementation, the like system. </strong>You can now like and dislike singers in the queue. These stats are instantly saved and can be reloaded if the same person goes again! 
                 </div>
               </div>
               <div class="chat_inner-item">
                 <div class="message log">
-                  <i class="em em-bar_chart"></i><strong> Statistics. </strong>You can now see how many times someone has sung compared to everyone else!
+                  <i class="em em-bar_chart"></i><strong> Updated statistics. </strong> In lieu with the like system, the statistics page now features a most liked and most disliked singer from the whole queue! 
                 </div>
               </div>
               <div class="chat_inner-item">

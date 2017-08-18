@@ -3,6 +3,7 @@
   <head>
 	 <title>StageR</title>
 	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	 <link rel="stylesheet" type="text/css" href="static/css/style.css">
    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
    <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
@@ -49,6 +50,10 @@
                   {% else %}
                     <p class="sub">This person has sang {{first[2]}} times.</p>
                   {% endif %}
+                  <div id="demo">
+                  <a href="{{url_for('votelike')}}"><button class="btn like btn-danger"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> <span class="likes">{{first[3]}}</span></button></a>
+                  <a href="{{url_for('votedislike')}}"><button class="btn dislike btn-warning active"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <span class="dislikes">{{first[4]}}</span></button></a>
+                  </div>
                   <div class="controls">
                     <a rel="nofollow" rel="noreferrer"href="{{url_for('nextSinger')}}" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
                       <span class="tooltiptext">Next</span>
@@ -122,6 +127,7 @@
   new Clipboard('#btn-copier');
 </script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="static/js/like-dislike.js"></script>
 <script src="static/js/as.js"></script>
 <!-- This needs to be put in an external file. -->
 <script type="text/javascript">

@@ -27,17 +27,17 @@ def makedata():
 		# declare a match var that will tell if the for loop finds a match or not
 		match = False
 		# the default batch
-		batch = [(inputan, inputname, 0)]
+		batch = [(inputan, inputname, 0, 0, 0)]
 		for hist in histdata:
 			if inputname == hist:
-				c.execute("SELECT singTimes FROM history WHERE name=?", [(inputname)])
-				actualTimes = c.fetchone()[0]
+				c.execute("SELECT * FROM history WHERE name=?", [(inputname)])
+				actualTimes = c.fetchone()
 				match = True
-				batch = [(inputan, inputname, actualTimes)]
-		c.executemany("INSERT INTO current VALUES(?,?,?)", batch)
+				batch = [actualTimes]
+		c.executemany("INSERT INTO current VALUES(?,?,?,?,?)", batch)
 		if not match:
-			c.executemany("INSERT INTO history VALUES(?,?,?)", batch)
-			c.executemany("INSERT INTO permanent VALUES(?,?,?)", batch)
+			c.executemany("INSERT INTO history VALUES(?,?,?,?,?)", batch)
+			c.executemany("INSERT INTO permanent VALUES(?,?,?,?,?)", batch)
 
 # the default route decorator
 @app.route("/", methods=["GET", "POST"])
@@ -84,9 +84,16 @@ def nextSinger():
 		c = connection.cursor()
 		# when next is clicked, we need to increment the times he/she has sang by 1.
 		# as well as remove the user from the 'current' queue.
+		print(firstUserData)
+		userLikes = (firstUserData[3])
+		userDisLikes = (firstUserData[4])
 		singer = (firstUserData[1])
 		c.execute("UPDATE history SET singTimes = singTimes + 1 WHERE name=?", [singer])
 		c.execute("UPDATE permanent SET singTimes = singTimes + 1 WHERE name=?", [singer])
+		c.execute("UPDATE history SET likes = ? WHERE name=?", [userLikes, singer])
+		c.execute("UPDATE history SET dislikes = ? WHERE name=?", [userDisLikes, singer])
+		c.execute("UPDATE permanent SET dislikes = ? WHERE name=?", [userDisLikes, singer])
+		c.execute("UPDATE permanent SET likes = ? WHERE name=?", [userLikes, singer])
 		c.execute("DELETE FROM current WHERE name=?", [singer])
 		c.execute("SELECT * FROM current")
 		myUsers = c.fetchall()
@@ -187,8 +194,8 @@ def rename():
 				if newUser == h:
 					match = True
 			if not match:
-				c.execute("INSERT INTO history VALUES(?,?,?)", (choice(animals), newUser, 0))
-				c.execute("INSERT INTO permanent VALUES(?,?,?)", (choice(animals), newUser, 0))
+				c.execute("INSERT INTO history VALUES(?,?,?,?,?)", (choice(animals), newUser, 0, 0, 0))
+				c.execute("INSERT INTO permanent VALUES(?,?,?,?,?)", (choice(animals), newUser, 0, 0, 0))
 			return redirect(url_for('index'))
 	with sqlite3.connect('tags.db') as connection:
 		c = connection.cursor()
@@ -241,10 +248,54 @@ def stats():
 		allNames = c.fetchall()
 		realNames = [a[0] for a in allNames]
 		statData = zip(realNames, percentages)
-		return render_template('stats.html', stats=statData)
+		c.execute("SELECT name, likes from permanent")
+		allLikes = c.fetchall()
+		allLikes = sorted(allLikes, key=lambda d: d[1], reverse=True)
+		mostLiked = allLikes[0][0]
+		c.execute("SELECT name, dislikes from permanent")
+		allDislikes = c.fetchall()
+		allDislikes = sorted(allDislikes, key=lambda d: d[1], reverse=True)
+		mostDisliked = allDislikes[0][0]
+		return render_template('stats.html', stats=statData, msliked=mostLiked, msdsliked=mostDisliked)
+
+@app.route("/l")
+def votelike():
+	with sqlite3.connect("tags.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT * from current")
+		currentNameData = c.fetchone()
+		nameDataName = currentNameData[1]
+		c.execute("UPDATE current SET likes = likes + 1 WHERE name=?", [nameDataName])
+		c.execute("SELECT * FROM current")
+		myUsers = c.fetchall()
+		global firstUserData
+		if len(myUsers) > 0:
+			firstUserData = myUsers.pop(-0)
+		else:
+			firstUserData = None
+		return render_template("index.html", users=myUsers, first=firstUserData)
+
+
+@app.route("/dl")
+def votedislike():
+	with sqlite3.connect("tags.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT * from current")
+		currentNameData = c.fetchone()
+		nameDataName = currentNameData[1]
+		c.execute("UPDATE current SET dislikes = dislikes + 1 WHERE name=?", [nameDataName])
+		c.execute("SELECT * FROM current")
+		myUsers = c.fetchall()
+		global firstUserData
+		if len(myUsers) > 0:
+			firstUserData = myUsers.pop(-0)
+		else:
+			firstUserData = None
+		return render_template("index.html", users=myUsers, first=firstUserData)		
+
 
 if __name__ == "__main__":
 	# convention to run on Heroku
 	port = int(environ.get("PORT", 5000))
 	# run the app available anywhere on the network, on debug mode
-	app.run(host='0.0.0.0', port=port, debug=True)
+	app.run(port=port, debug=True)
