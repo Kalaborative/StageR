@@ -84,7 +84,6 @@ def nextSinger():
 		c = connection.cursor()
 		# when next is clicked, we need to increment the times he/she has sang by 1.
 		# as well as remove the user from the 'current' queue.
-		print(firstUserData)
 		userLikes = (firstUserData[3])
 		userDisLikes = (firstUserData[4])
 		singer = (firstUserData[1])
@@ -251,11 +250,17 @@ def stats():
 		c.execute("SELECT name, likes from permanent")
 		allLikes = c.fetchall()
 		allLikes = sorted(allLikes, key=lambda d: d[1], reverse=True)
-		mostLiked = allLikes[0][0]
+		try:
+			mostLiked = allLikes[0][0]
+		except:
+			mostLiked = ""
 		c.execute("SELECT name, dislikes from permanent")
 		allDislikes = c.fetchall()
 		allDislikes = sorted(allDislikes, key=lambda d: d[1], reverse=True)
-		mostDisliked = allDislikes[0][0]
+		try:
+			mostDisliked = allDislikes[0][0]
+		except:
+			mostDisliked = ""
 		return render_template('stats.html', stats=statData, msliked=mostLiked, msdsliked=mostDisliked)
 
 @app.route("/l")
