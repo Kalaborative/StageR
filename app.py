@@ -278,7 +278,7 @@ def votelike():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		return render_template("index.html", users=myUsers, first=firstUserData)
+		return redirect(url_for('index'))
 
 
 @app.route("/dl")
@@ -296,7 +296,7 @@ def votedislike():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		return render_template("index.html", users=myUsers, first=firstUserData)		
+		return redirect(url_for('index'))		
 
 
 if __name__ == "__main__":
