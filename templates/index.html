@@ -27,6 +27,7 @@
               <a rel="nofollow" rel="noreferrer"href="{{url_for('resetHistory')}}" id="resetSingers"><i class="fa fa-refresh"></i>Reset singer history</a>
               <a rel="nofollow" rel="noreferrer"href="{{url_for('log')}}" id="chlog"><i class="fa fa-paint-brush"></i>Changelog</a>
               <a rel="nofollow" rel="noreferrer"href="{{url_for('stats')}}"><i class="fa fa-bar-chart"></i>Statistics</a>
+              <a rel="nofollow" rel="noreferrer"href="{{url_for('index')}}"><i class="fa fa-terminal"></i>Public View</a>
             </div>
           </div>
           <div class="site-wrapper_top-bar">
@@ -51,8 +52,8 @@
                     <p class="sub">This person has sang {{first[2]}} times.</p>
                   {% endif %}
                   <div id="demo">
-                  <a href="{{url_for('votelike')}}"><button class="btn like btn-danger"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> <span class="likes">{{first[3]}}</span></button></a>
-                  <a href="{{url_for('votedislike')}}"><button class="btn dislike btn-warning active"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <span class="dislikes">{{first[4]}}</span></button></a>
+                  <a href="{{url_for('avvotelike')}}"><button class="btn like btn-danger"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> <span class="likes">{{first[3]}}</span></button></a>
+                  <a href="{{url_for('avvotedislike')}}"><button class="btn dislike btn-warning active"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <span class="dislikes">{{first[4]}}</span></button></a>
                   </div>
                   <div class="controls">
                     <a rel="nofollow" rel="noreferrer"href="{{url_for('nextSinger')}}" id="next" class="tooltipA"><i class="fa fa-hand-paper-o"></i>
@@ -112,7 +113,7 @@
           <div id="signup" class="modalbg">
             <div class="dialog">
               <a rel="nofollow" rel="noreferrer" href="#close" title="Close" class="close">X</a>
-              <form class="register" action="{{url_for('index')}}" method="post">
+              <form class="register" action="{{url_for('adminview')}}" method="post">
                 <input type="name" class="register-input" placeholder="Name/Discord Tag" name="discordtag">
                 <input type="submit" value="Add New Name" class="register-button">
               </form>

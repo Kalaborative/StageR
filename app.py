@@ -1,12 +1,14 @@
 # import the necessary modules
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, g
 import sqlite3
 from random import choice
 from time import sleep
-from os import environ
+from os import environ, urandom
+from functools import wraps
 
 # start a Flask app
 app = Flask(__name__)
+app.secret_key = urandom(24)
 
 # Declare global variables
 firstUserData = []
@@ -39,9 +41,36 @@ def makedata():
 			c.executemany("INSERT INTO history VALUES(?,?,?,?,?)", batch)
 			c.executemany("INSERT INTO permanent VALUES(?,?,?,?,?)", batch)
 
+
+# login required decorator
+def login_required(f):
+	@wraps(f)
+	def wrap(*args, **kwargs):
+		try:
+			if not session['logged_in']:
+				return render_template('error.html')
+		except KeyError:
+			return render_template('error.html')
+		return f(*args, **kwargs)
+	return wrap
+
 # the default route decorator
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
+	with sqlite3.connect("tags.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT * FROM current")
+		myUsers = c.fetchall()
+		# if the length of users is more than 0, we need to pull the first name
+		if len(myUsers) > 0:
+			firstUserData = myUsers.pop(-0)
+		else:
+			firstUserData = None
+		return render_template("public.html", users=myUsers, first=firstUserData)
+
+@app.route('/av', methods=["GET", "POST"])
+@login_required
+def adminview():
 	if request.method == "POST":
 		makedata()
 		with sqlite3.connect("tags.db") as connection:
@@ -65,8 +94,20 @@ def index():
 			firstUserData = None
 		return render_template("index.html", users=myUsers, first=firstUserData)
 
+@app.route("/adminlogin", methods=["GET", "POST"])
+def login():
+	error = None
+	if request.method == "POST":
+		if request.form["username"] == "org123" and request.form["password"] == "#L0v3sh4ck":
+			session['logged_in'] = True
+			return redirect(url_for('adminview'))
+		else:
+			error = True
+			return render_template('login.html', error=error)
+	return render_template("login.html", error=error)
+
 # decorator for the 'next' button
-@app.route('/next', methods=["GET", "POST"])
+@app.route('/av/next', methods=["GET", "POST"])
 def nextSinger():
 	if request.method == "POST":
 		makedata()
@@ -100,10 +141,10 @@ def nextSinger():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		return redirect(url_for("index"))
+		return redirect(url_for("adminview"))
 
 # decorator for the 'skip' button
-@app.route('/skip', methods=["GET", "POST"])
+@app.route('/av/skip', methods=["GET", "POST"])
 def skipSinger():
 	if request.method == "POST":
 		makedata()
@@ -128,10 +169,11 @@ def skipSinger():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		return redirect(url_for('index'))
+		return redirect(url_for('adminview'))
 
 # decorator for resetting the history data
 @app.route('/resetd', methods=["GET", "POST"])
+@login_required
 def resetHistory():
 	if request.method == "POST":
 		makedata()
@@ -155,10 +197,11 @@ def resetHistory():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		return redirect(url_for('index'))
+		return redirect(url_for('adminview'))
 
 
 @app.route("/delete", methods=["GET", "POST"])
+@login_required
 def delete():
 	editType = "del"
 	if request.method == "POST":
@@ -166,7 +209,7 @@ def delete():
 		with sqlite3.connect('tags.db') as connection:
 			c = connection.cursor()
 			c.execute("DELETE FROM current WHERE name=?", [deleteUser])
-			return redirect(url_for('index'))
+			return redirect(url_for('adminview'))
 	with sqlite3.connect('tags.db') as connection:
 		c = connection.cursor()
 		c.execute("SELECT name FROM current")
@@ -175,6 +218,7 @@ def delete():
 		return render_template("edit.html", edit=editType, names=allNames)
 
 @app.route("/rename", methods=["GET", "POST"])
+@login_required
 def rename():
 	editType = "ren"
 	if request.method == "POST":
@@ -195,7 +239,7 @@ def rename():
 			if not match:
 				c.execute("INSERT INTO history VALUES(?,?,?,?,?)", (choice(animals), newUser, 0, 0, 0))
 				c.execute("INSERT INTO permanent VALUES(?,?,?,?,?)", (choice(animals), newUser, 0, 0, 0))
-			return redirect(url_for('index'))
+			return redirect(url_for('adminview'))
 	with sqlite3.connect('tags.db') as connection:
 		c = connection.cursor()
 		c.execute("SELECT name FROM current")
@@ -203,20 +247,8 @@ def rename():
 		allNames = [a[0] for a in allNames]
 	return render_template("edit.html", edit=editType, names=allNames)
 
-@app.route('/log', methods=["GET", "POST"])
+@app.route('/log')
 def log():
-	if request.method == "POST":
-		makedata()
-		with sqlite3.connect("tags.db") as connection:
-			c = connection.cursor()
-			c.execute("SELECT * FROM current")
-			myUsers = c.fetchall()
-			global firstUserData
-			if len(myUsers) > 0:
-				firstUserData = myUsers.pop(-0)
-			else:
-				firstUserData = None
-			return render_template("index.html", users=myUsers, first=firstUserData)
 	with sqlite3.connect("tags.db") as connection:
 		c = connection.cursor()
 		c.execute("SELECT * FROM current")
@@ -232,6 +264,7 @@ def fullLog():
 	return render_template('fulllog.html')
 
 @app.route('/stats')
+@login_required
 def stats():
 	with sqlite3.connect('tags.db') as connection:
 		c = connection.cursor()
@@ -280,6 +313,23 @@ def votelike():
 			firstUserData = None
 		return redirect(url_for('index'))
 
+@app.route("/av/l")
+def avvotelike():
+	with sqlite3.connect("tags.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT * from current")
+		currentNameData = c.fetchone()
+		nameDataName = currentNameData[1]
+		c.execute("UPDATE current SET likes = likes + 1 WHERE name=?", [nameDataName])
+		c.execute("SELECT * FROM current")
+		myUsers = c.fetchall()
+		global firstUserData
+		if len(myUsers) > 0:
+			firstUserData = myUsers.pop(-0)
+		else:
+			firstUserData = None
+		return redirect(url_for('adminview'))
+
 
 @app.route("/dl")
 def votedislike():
@@ -296,7 +346,25 @@ def votedislike():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		return redirect(url_for('index'))		
+		return redirect(url_for('index'))
+
+@app.route("/av/dl")
+def avvotedislike():
+	with sqlite3.connect("tags.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT * from current")
+		currentNameData = c.fetchone()
+		nameDataName = currentNameData[1]
+		c.execute("UPDATE current SET dislikes = dislikes + 1 WHERE name=?", [nameDataName])
+		c.execute("SELECT * FROM current")
+		myUsers = c.fetchall()
+		global firstUserData
+		if len(myUsers) > 0:
+			firstUserData = myUsers.pop(-0)
+		else:
+			firstUserData = None
+		return redirect(url_for('adminview'))		
+
 
 
 if __name__ == "__main__":

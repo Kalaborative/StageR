@@ -3,11 +3,15 @@
   <head>
 	 <title>StageR</title>
 	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-   <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-	 <link rel="stylesheet" type="text/css" href="static/css/change.css">
+   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	 <link rel="stylesheet" type="text/css" href="static/css/style.css">
    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
    <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
    <meta charset='utf-8'>
+   <!-- as long as someone is in the queue, the page will automatically refresh -->
+   {% if first %}
+    <meta http-equiv="refresh" content="15">
+   {% endif %}
   </head>
   <body>
 	   <div class="wrapper">
@@ -17,8 +21,10 @@
           <div class="site-wrapper_left-col">
             <a rel="nofollow" rel="noreferrer" class="logo" href="{{url_for('index')}}">StageR</a>
             <div class="left-nav">
-              <a rel="nofollow" rel="noreferrer" href="{{url_for('index')}}" id="singers"><i class="fa fa-microphone"></i>Singers</a>
-              <a rel="nofollow" rel="noreferrer" class="active" href="{{url_for('log')}}"><i class="fa fa-paint-brush"></i>Changelog</a>
+              <!-- Main links -->
+              <a rel="nofollow" rel="noreferrer"href="#" class="active" id="singers"><i class="fa fa-microphone"></i>Singers</a>
+              <a rel="nofollow" rel="noreferrer"href="{{url_for('log')}}" id="chlog"><i class="fa fa-paint-brush"></i>Changelog</a>
+              <a rel="nofollow" rel="noreferrer"href="{{url_for('adminview')}}"><i class="fa fa-terminal"></i>Admin View</a>
             </div>
           </div>
           <div class="site-wrapper_top-bar">
@@ -33,8 +39,8 @@
                 </div>
               <div class="user-item_info">
                 {% if first%}
-                  <img src="static/img/{{first[0]}}" />
-                  <p class="name" id="currentSinger">🎵 {{first[1]}} 🎵 </p>
+                    <img src="static/img/{{first[0]}}" />
+                  <p class="name glowing" id="currentSinger">🎵 {{first[1]}} 🎵 </p>
                   {% if first[2] == 0 %}
                     <p class="sub">This person has not sang before.</p>
                   {% elif first[2] == 1 %}
@@ -42,6 +48,10 @@
                   {% else %}
                     <p class="sub">This person has sang {{first[2]}} times.</p>
                   {% endif %}
+                  <div id="demo">
+                  <a href="{{url_for('votelike')}}"><button class="btn like btn-danger"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> <span class="likes">{{first[3]}}</span></button></a>
+                  <a href="{{url_for('votedislike')}}"><button class="btn dislike btn-warning active"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <span class="dislikes">{{first[4]}}</span></button></a>
+                  </div>
                 {% else %}
                   <p class="name" id="currentSinger">No one! Add someone first. :)</p>
                 {% endif %}
@@ -57,60 +67,38 @@
               <span class="details">{{ users|length }} TOTAL</span>
                 {% endif %}
             </div>
-            <div class="chat_inner_scroll">
-              <div class="chat_inner-item right">
-                <div class="message success log">
-                  <h2>Latest Update</h2>
-                </div>
-              </div>
-              <div class="chat_inner-item">
-                <div class="message log">
-                  <i class="em em-sparkling_heart"></i><strong> StageR has gone public!! </strong>To encourage higher statistics and more visibility, we've released the webapp to the public. Cheers! 
-                </div>
-              </div>
-              <div class="chat_inner-item">
-                <div class="message log">
-                  <i class="em em-tv"></i><strong> Public and private view. </strong> There are now public views for everyone and private views for organizers. More control over the pages means more flexibility! Enjoy! 
-                </div>
-              </div>
-              <div class="chat_inner-item">
-                <div class="message log">
-                 That's it! Click any of these messages to make them disappear.
-                </div>
-              </div>
-              {% for u in users %}
+                {% if users|length > 4 %}
+                  <div class="chat_inner_scroll">
+                {% else %}
+                  <div class="chat_inner" id="checkscroll">
+                {% endif %}
+                {% for u in users %}
                     <div class="chat_inner-item">
                       <div class="photo">
                         <img src="static/img/{{u[0]}}" />
                       </div>
                       <div class="message">
-                        {{ u[1] }}
+                        {{ u[1] }} 
                       </div>
                     </div>
                 {% endfor %}
-            </div>
-            <div class="footer">
-                <a href="{{url_for('fullLog')}}"><button><i class="fa fa-star"></i> Click here for the full changelog!</button></a>
-            </div>
-            </div>
-          </div>
+                </div>
+                <div class="footer">
+                <!-- Footer buttons only appear if queue is occupied. -->
+                </div>
+              </div>
         </div>
       </div>
-     </div>
     <!-- end inner content -->
-    </div>
+        </div>
+  <!-- end content -->
    </div>
   </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="static/js/like-dislike.js"></script>
 <script src="static/js/as.js"></script>
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('.log').click(function(){
-      $(this).fadeOut('fast');
-    });
-  });
-</script>
+<!-- This needs to be put in an external file. -->
 <script type="text/javascript">
 var anchors = document.querySelectorAll('body')
 
@@ -119,15 +107,18 @@ Array.prototype.forEach.call(anchors, function(anchor) {
 })
 
 function explode(e) {
+    [].map.call(anchors, function(el) {
+           el.classList.toggle('active');
+     });
   var x = e.clientX
   var y = e.clientY
   var c = document.createElement('canvas')
   var ctx = c.getContext('2d')
   var ratio = window.devicePixelRatio
   var particles = []
-
+  
   document.body.appendChild(c)
-
+  
   c.style.position = 'absolute'
   c.style.left = (x - 50) + 'px'
   c.style.top = (y - 50) + 'px'
@@ -136,7 +127,7 @@ function explode(e) {
   c.style.height = 100 + 'px'
   c.width = 100 * ratio
   c.height = 100 * ratio
-
+  
   function Particle() {
     return {
       x: c.width / 2,
@@ -151,30 +142,30 @@ function explode(e) {
       gravity: 0
     }
   }
-
+  
   for(var i=0; ++i<15;) {
     particles.push(Particle())
   }
-
-
-
+  
+  
+  
   function render() {
     ctx.clearRect(0, 0, c.width, c.height)
-
+    
     particles.forEach(function(p, i) {
-
+      
       angleTools.moveOnAngle(p, p.speed)
-
+      
       p.opacity -= 0.01
       p.speed *= p.friction
       p.radius *= p.friction
-
+      
       p.yVel += p.gravity
       p.y += p.yVel
-
+      
       if(p.opacity < 0) return
       if(p.radius < 0) return
-
+      
       ctx.beginPath()
       ctx.globalAlpha = p.opacity
       ctx.fillStyle = p.color
@@ -182,12 +173,12 @@ function explode(e) {
       ctx.fill()
     })
   }
-
+  
   ;(function renderLoop(){
     requestAnimationFrame(renderLoop)
     render()
   })()
-
+  
   setTimeout(function() {
     document.body.removeChild(c)
   }, 3000)

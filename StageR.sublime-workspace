@@ -103,6 +103,8 @@
 	],
 	"file_history":
 	[
+		"/C/Users/kalab/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings",
+		"/C/Users/kalab/AppData/Roaming/Sublime Text 3/Packages/User/Anaconda.sublime-settings",
 		"/C/Users/kalab/StageR/static/css/style.css",
 		"/C/Users/kalab/StageR/templates/stats.html",
 		"/C/Users/kalab/StageR/templates/fulllog.html",
@@ -196,8 +198,8 @@
 						"selection":
 						[
 							[
-								10041,
-								10041
+								3910,
+								3910
 							]
 						],
 						"settings":
@@ -206,7 +208,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4033.0,
+						"translation.y": 1291.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
