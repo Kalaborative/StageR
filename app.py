@@ -366,6 +366,10 @@ def avvotedislike():
 		return redirect(url_for('adminview'))		
 
 
+@app.route('/featured')
+def featured():
+	return render_template('feature.html')
+
 
 if __name__ == "__main__":
 	# convention to run on Heroku
