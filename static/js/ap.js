@@ -712,8 +712,8 @@ $(document).ready(function() {
   AP.init({
     playList: [{
       'icon': iconImage,
-      'title': 'Hello (Acoustic Cover)',
-      'file': 'https://s1.vocaroo.com/media/download_temp/Vocaroo_s10K9ORNjMaP.mp3'
+      'title': 'Cringe Compilation',
+      'file': 'https://s0.vocaroo.com/media/download_temp/Vocaroo_s0aYjMR8f8RS.mp3'
     }]
   });
 
