@@ -59,6 +59,24 @@
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
+		},
+		{
+			"file": "templates/feature.html",
+			"settings":
+			{
+				"buffer_size": 9563,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "static/js/ap.js",
+			"settings":
+			{
+				"buffer_size": 26057,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
 		}
 	],
 	"build_system": "",
@@ -99,7 +117,6 @@
 	[
 		"/C/Users/kalab/StageR",
 		"/C/Users/kalab/StageR/static",
-		"/C/Users/kalab/StageR/static/css",
 		"/C/Users/kalab/StageR/static/js",
 		"/C/Users/kalab/StageR/templates"
 	],
@@ -167,7 +184,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -183,8 +200,8 @@
 						"selection":
 						[
 							[
-								11999,
-								11999
+								11882,
+								11882
 							]
 						],
 						"settings":
@@ -208,7 +225,67 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 5240.0,
+						"translation.y": 5496.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "templates/feature.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9563,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2070,
+								2070
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3446.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "static/js/ap.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 26057,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								21839,
+								21839
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 10428.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
