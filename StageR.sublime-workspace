@@ -64,7 +64,7 @@
 			"file": "templates/feature.html",
 			"settings":
 			{
-				"buffer_size": 9563,
+				"buffer_size": 9556,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -73,7 +73,7 @@
 			"file": "static/js/ap.js",
 			"settings":
 			{
-				"buffer_size": 26057,
+				"buffer_size": 26051,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -142,7 +142,7 @@
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 43.0
 	},
 	"find_in_files":
 	{
@@ -156,6 +156,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Ab",
 			"player",
 			"image",
 			"j",
@@ -237,15 +238,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9563,
+						"buffer_size": 9556,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2070,
-								2070
+								2063,
+								2063
 							]
 						],
 						"settings":
@@ -255,7 +256,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3446.0,
+						"translation.y": 221.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -267,15 +268,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 26057,
+						"buffer_size": 26051,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								21839,
-								21839
+								5294,
+								5296
 							]
 						],
 						"settings":
@@ -285,7 +286,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 10428.0,
+						"translation.y": 2300.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -296,7 +297,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 31.0
 	},
 	"input":
 	{
@@ -333,7 +334,7 @@
 	"project": "StageR.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 58.0
 	},
 	"save_all_on_build": true,
 	"select_file":
