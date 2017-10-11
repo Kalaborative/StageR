@@ -2,6 +2,7 @@
 
 body {
   background-image: url(../img/testpaper2.jpg);
+	background-size:cover;
 }
 .center-on-page {
   position: absolute;
