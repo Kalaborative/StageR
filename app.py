@@ -12,7 +12,7 @@ app.secret_key = urandom(24)
 
 # Declare global variables
 firstUserData = []
-animals = ["deer.gif", "dog_1.gif", "dog_2.gif", "elephant.gif", "fox.gif", "koala.gif", "lion.gif", "monkey.gif", "moose.gif", "pig.gif", "raccoon.gif", "squirrel.gif"]
+animals = ["beach.png","mouse.png","dolphine.png","crab.png","bee.png","rabbit.png","tiger.png","owl.png","elephant.png","panda.png","snail.png","frog.png","fish.png","reindeer.png","lion.png","bear.png","spider.png","butterfly.png","spider2.png","animals1.png","animals2.png","animals3.png","animals4.png","animal6.png","animal7.png",]
 
 
 # The makedata function handles new user registration on any page.
