@@ -7,7 +7,8 @@
 }
 
 body {
-  background: lightgray;
+  background: url(../img/halloween_bg.jpg) no-repeat;
+  background-size: cover;
   font-family: 'Yanone Kaffeesatz', sans-serif;
 }
 
@@ -66,7 +67,7 @@ body {
 
 .site-wrapper {
   min-height: 500px;
-  background: #ECECEC;
+  background: #383636;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.23);
@@ -93,7 +94,7 @@ body {
 }
 .site-wrapper_left-col .logo {
   display: block;
-  background: #3498DB;
+  background: #b95a06;
   padding: 15px;
   font-family: 'Pacifico', cursive;
   font-size: 24px;
@@ -109,7 +110,7 @@ body {
   opacity: 1;
 }
 .site-wrapper_left-col .logo:hover, .site-wrapper_left-col .logo:focus {
-  background: #217dbb;
+  background: #150801;
   text-decoration: none;
 }
 .site-wrapper_left-col .left-nav a {
@@ -132,7 +133,7 @@ body {
 }
 .site-wrapper_left-col .left-nav a:hover, .site-wrapper_left-col .left-nav a:focus, .site-wrapper_left-col .left-nav a.active {
   background: #2C3E50;
-  border-left-color: #3498DB;
+  border-left-color: #c52a0e;
   border-left-width: 5px;
 }
 .site-wrapper_top-bar {
@@ -141,7 +142,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background: #fff;
+  background: #000;
   z-index: 10;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
   text-align: right;
@@ -305,7 +306,7 @@ body {
 }
 .chat .head {
   line-height: 45px;
-  background: #3498DB;
+  background: #da7912;
   padding: 0 15px;
   position: absolute;
   top: 0;
@@ -403,7 +404,7 @@ h2{
 .chat_inner_scroll::-webkit-scrollbar-thumb
 {
 	border-radius: 10px;
-	background-color: #8ef3e9;
+	background-color: #f3d38e;
 }
 .chat_inner-item {
   padding: 10px 30px;
