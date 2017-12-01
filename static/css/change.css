@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
-@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700,300);
+@import url(https://fonts.googleapis.com/css?family=Quicksand);
 @import url(https://fonts.googleapis.com/css?family=Roboto:300italic,400italic,400,100,300,600,700);
 * {
   box-sizing: border-box;
@@ -8,7 +8,7 @@
 
 body {
   background: lightgray;
-  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .row {
@@ -435,8 +435,8 @@ h2{
   font-family: Roboto;
   padding: 12px 20px;
   background-color: #ECECEC;
-  border-radius: 5px;
-  color: #808080;
+  border-radius: 23px;
+  /*color: #808080;*/
   /* letter-spacing: 1px; */
 }
 .chat_inner-item .message ~ .photo {

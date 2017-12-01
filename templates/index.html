@@ -10,7 +10,7 @@
    <meta charset='utf-8'>
    <!-- as long as someone is in the queue, the page will automatically refresh -->
    {% if first %}
-    <meta http-equiv="refresh" content="15">
+     <meta http-equiv="refresh" content="15"> 
    {% endif %}
   </head>
   <body>
@@ -23,8 +23,8 @@
             <div class="left-nav">
               <!-- Main links -->
               <a rel="nofollow" rel="noreferrer"href="#" class="active" id="singers"><i class="fa fa-microphone"></i>Singers</a>
-              <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add a new singer</a>
-              <a rel="nofollow" rel="noreferrer"href="{{url_for('resetHistory')}}" id="resetSingers"><i class="fa fa-refresh"></i>Reset singer history</a>
+              <a rel="nofollow" rel="noreferrer"href="#signup"><i class="fa fa-plus"></i>Add singer</a>
+              <a rel="nofollow" rel="noreferrer"href="{{url_for('resetHistory')}}" id="resetSingers"><i class="fa fa-refresh"></i>Reset history</a>
               <a rel="nofollow" rel="noreferrer"href="{{url_for('log')}}" id="chlog"><i class="fa fa-paint-brush"></i>Changelog</a>
               <a rel="nofollow" rel="noreferrer"href="{{url_for('stats')}}"><i class="fa fa-bar-chart"></i>Statistics</a>
               <a rel="nofollow" rel="noreferrer"href="{{url_for('index')}}"><i class="fa fa-terminal"></i>Public View</a>
