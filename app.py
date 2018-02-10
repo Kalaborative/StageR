@@ -1,5 +1,5 @@
 # import the necessary modules
-from flask import Flask, render_template, request, redirect, url_for, session, g
+from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 import sqlite3
 from random import choice
 from time import sleep
@@ -9,6 +9,7 @@ from functools import wraps
 # start a Flask app
 app = Flask(__name__)
 app.secret_key = urandom(24)
+
 
 # Declare global variables
 firstUserData = []
@@ -66,6 +67,7 @@ def index():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
+		print(firstUserData)
 		return render_template("public.html", users=myUsers, first=firstUserData)
 
 @app.route('/av', methods=["GET", "POST"])
@@ -296,7 +298,7 @@ def stats():
 			mostDisliked = ""
 		return render_template('stats.html', stats=statData, msliked=mostLiked, msdsliked=mostDisliked)
 
-@app.route("/l")
+@app.route("/l", methods=["POST"])
 def votelike():
 	with sqlite3.connect("tags.db") as connection:
 		c = connection.cursor()
@@ -304,34 +306,11 @@ def votelike():
 		currentNameData = c.fetchone()
 		nameDataName = currentNameData[1]
 		c.execute("UPDATE current SET likes = likes + 1 WHERE name=?", [nameDataName])
-		c.execute("SELECT * FROM current")
-		myUsers = c.fetchall()
-		global firstUserData
-		if len(myUsers) > 0:
-			firstUserData = myUsers.pop(-0)
-		else:
-			firstUserData = None
-		return redirect(url_for('index'))
-
-@app.route("/av/l")
-def avvotelike():
-	with sqlite3.connect("tags.db") as connection:
-		c = connection.cursor()
 		c.execute("SELECT * from current")
 		currentNameData = c.fetchone()
-		nameDataName = currentNameData[1]
-		c.execute("UPDATE current SET likes = likes + 1 WHERE name=?", [nameDataName])
-		c.execute("SELECT * FROM current")
-		myUsers = c.fetchall()
-		global firstUserData
-		if len(myUsers) > 0:
-			firstUserData = myUsers.pop(-0)
-		else:
-			firstUserData = None
-		return redirect(url_for('adminview'))
+		return jsonify({"status": "OK", "likes": currentNameData[3]})
 
-
-@app.route("/dl")
+@app.route("/dl", methods=["POST"])
 def votedislike():
 	with sqlite3.connect("tags.db") as connection:
 		c = connection.cursor()
@@ -340,30 +319,8 @@ def votedislike():
 		nameDataName = currentNameData[1]
 		c.execute("UPDATE current SET dislikes = dislikes + 1 WHERE name=?", [nameDataName])
 		c.execute("SELECT * FROM current")
-		myUsers = c.fetchall()
-		global firstUserData
-		if len(myUsers) > 0:
-			firstUserData = myUsers.pop(-0)
-		else:
-			firstUserData = None
-		return redirect(url_for('index'))
-
-@app.route("/av/dl")
-def avvotedislike():
-	with sqlite3.connect("tags.db") as connection:
-		c = connection.cursor()
-		c.execute("SELECT * from current")
 		currentNameData = c.fetchone()
-		nameDataName = currentNameData[1]
-		c.execute("UPDATE current SET dislikes = dislikes + 1 WHERE name=?", [nameDataName])
-		c.execute("SELECT * FROM current")
-		myUsers = c.fetchall()
-		global firstUserData
-		if len(myUsers) > 0:
-			firstUserData = myUsers.pop(-0)
-		else:
-			firstUserData = None
-		return redirect(url_for('adminview'))		
+		return jsonify({"status": "OK", "dislikes": currentNameData[4]})	
 
 
 @app.route('/featured')
