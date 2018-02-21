@@ -9,9 +9,6 @@
    <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
    <meta charset='utf-8'>
    <!-- as long as someone is in the queue, the page will automatically refresh -->
-   {% if first %}
-     <meta http-equiv="refresh" content="15"> 
-   {% endif %}
   </head>
   <body>
 	   <div class="wrapper">
@@ -41,9 +38,9 @@
                 <div class="user-item_info">
                   <h1>The person up next is...</h1>
                 </div>
-              <div class="user-item_info">
+              <div class="user-item_info" id="singStatus">
                 {% if first%}
-                    <img src="static/img/{{first[0]}}" />
+                  <img id="singerImg" src="static/img/{{first[0]}}" />
                   <p class="name glowing" id="currentSinger">🎵 {{first[1]}} 🎵 </p>
                   {% if first[2] == 0 %}
                     <p class="sub">This person has not sang before.</p>
@@ -74,7 +71,7 @@
         </div>
         <div class="col-2">
           <div class="chat">
-            <div class="head">
+            <div class="head" id="queue-indicator">
               <i class="fa fa-bell"></i>
                 Queue
                 {% if users|length > 0 %}
@@ -82,10 +79,11 @@
                 {% endif %}
             </div>
                 {% if users|length > 4 %}
-                  <div class="chat_inner_scroll">
+                  <div class="chat_inner_scroll" id="checkscroll">
                 {% else %}
                   <div class="chat_inner" id="checkscroll">
                 {% endif %}
+                <span id="userQueue">
                 {% for u in users %}
                     <div class="chat_inner-item">
                       <div class="photo">
@@ -96,14 +94,17 @@
                       </div>
                     </div>
                 {% endfor %}
+                </span>
                 </div>
                 <div class="footer">
+                  <span id="options">
                 <!-- Footer buttons only appear if queue is occupied. -->
               {% if users|length > 0 %}
                 <a href="{{url_for('delete')}}"><button><i class="fa fa-ban"></i> Delete</button></a>
                 <a href="{{url_for('rename')}}"><button><i class="fa fa-pencil"></i> Rename</button></a>
                 <button id="btn-copier" data-clipboard-text="Current queue: {% for u in users %}{{ u[1] }} {% endfor %}"><i class="fa fa-files-o"></i> Copy queue</button>
               {% endif %}
+                  </span>
                 </div>
               </div>
         </div>
@@ -141,6 +142,7 @@ $(document).ready(function(){
       type: 'POST',
     }).done(function(response){
       var likes = response['likes'];
+      console.log(likes);
       $('#likenumber').html(likes);
     });
   });
@@ -154,6 +156,61 @@ $(document).ready(function(){
       $('#dislikenumber').html(dislikes);
     });
   });
+
+  setInterval(function() { $.ajax({
+    url: '/refresh',
+    type: 'POST',
+  }).done(function(response){
+    console.log(response);
+    if (!response['firstUserData']) {
+      $('#singStatus').html('<p class="name" id="currentSinger">No one! Add someone first. :)</p>');
+    } else {
+      var img = response['firstUserData'][0];
+      $('#singerImg').attr('src', 'static/img/' + img);
+      var singer = response['firstUserData'][1];
+      $('#currentSinger').html('🎵 ' + singer + ' 🎵');
+      var times = response['firstUserData'][2];
+      var status;
+      if (times === 0) {
+        status = 'This person has not sang before.';
+      } else if (times === 1) {
+        status = 'This person has sang once.';
+      } else {
+        status = 'This person has sang ' + times + ' times.';
+      }
+      $('.sub').html(status);
+      var likes = response['firstUserData'][3];
+      var dislikes = response['firstUserData'][4];
+      $("#likenumber").html(likes);
+      $('#dislikenumber').html(dislikes);
+    }
+
+    var allUsers = response['myUsers'];
+    if (allUsers.length > 0) {
+      $("#queue-indicator").html('<i class="fa fa-bell"></i> Queue <span class="details">' + allUsers.length + ' TOTAL</span>');
+      $('#options').show();
+    } else {
+      $("#queue-indicator").html('<i class="fa fa-bell"></i> Queue');
+      $('#options').hide();
+    }
+    if (allUsers.length > 4) {
+      $("#checkscroll").attr('class', 'chat_inner_scroll');
+    } else {
+      $('#checkscroll').attr('class', 'chat_inner');
+    }
+    $('#userQueue').html('');
+    for (let i = 0; i < allUsers.length; i++) {
+      $('#userQueue').append('<div class="chat_inner-item"><div class="photo"><img src="static/img/' + allUsers[i][0] + '" /></div> \
+        <div class="message">' + allUsers[i][1] + '</div></div>');
+    }
+    var copyList = [];
+    for (let i = 0; i < allUsers.length; i++) {
+      copyList.push(allUsers[i][1]);
+    }
+    var copyText = copyList.join(" ");
+    $("#btn-copier").attr("data-clipboard-text", "Current Queue: " + copyText);
+    $("#btn-copier").html('<i class="fa fa-files-o"></i> Copy queue');
+  }); }, 5000);
 });
 
 var anchors = document.querySelectorAll('body')

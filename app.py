@@ -67,8 +67,21 @@ def index():
 			firstUserData = myUsers.pop(-0)
 		else:
 			firstUserData = None
-		print(firstUserData)
 		return render_template("public.html", users=myUsers, first=firstUserData)
+
+@app.route("/refresh", methods=['POST'])
+def refresh():
+	with sqlite3.connect("tags.db") as connection:
+		c = connection.cursor()
+		c.execute("SELECT * FROM current")
+		myUsers = c.fetchall()
+		# if the length of users is more than 0, we need to pull the first name
+		if len(myUsers) > 0:
+			firstUserData = myUsers.pop(-0)
+		else:
+			firstUserData = None
+		return jsonify({"firstUserData": firstUserData, "myUsers": myUsers})
+
 
 @app.route('/av', methods=["GET", "POST"])
 @login_required
