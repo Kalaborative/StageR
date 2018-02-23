@@ -28,6 +28,7 @@
             </div>
           </div>
           <div class="site-wrapper_top-bar">
+            <button id="refreshButton">Click here to refresh.</button>
             <a rel="nofollow" href="{{url_for('featured')}}" class="feature" style="width: auto;"><i class="fa fa-heart"></i> Featured Performance!</a>
             <a rel="nofollow" rel="noreferrer" id="toggle"><i class="fa fa-bars"></i></a>
           </div>
@@ -40,6 +41,7 @@
                 </div>
               <div class="user-item_info" id="singStatus">
                 {% if first%}
+                  <div id="toggleFirst">
                   <img id="singerImg" src="static/img/{{first[0]}}" />
                   <p class="name glowing" id="currentSinger">🎵 {{first[1]}} 🎵 </p>
                   {% if first[2] == 0 %}
@@ -63,6 +65,7 @@
                       <span class="tooltiptext">Skip</span>
                     </a>
                   </div>
+                </div>
                 {% else %}
                   <p class="name" id="currentSinger">No one! Add someone first. :)</p>
                 {% endif %}
@@ -134,8 +137,13 @@
 <script src="static/js/as.js"></script>
 <!-- This needs to be put in an external file. -->
 <script type="text/javascript">
-
+$("#refreshButton").hide();
 $(document).ready(function(){
+
+  $("#refreshButton").click(function(){
+    window.location.reload(true);
+  });
+
   $("#votelikebtn").click(function(){
     $.ajax({
       url: '/l',
@@ -161,10 +169,17 @@ $(document).ready(function(){
     url: '/refresh',
     type: 'POST',
   }).done(function(response){
-    console.log(response);
     if (!response['firstUserData']) {
       $('#singStatus').html('<p class="name" id="currentSinger">No one! Add someone first. :)</p>');
+      $('#toggleFirst').hide();
     } else {
+      var buttonsAvailable = $("#singerImg").length;
+      if (!buttonsAvailable) {
+        $("#refreshButton").show();
+      } else {
+        $("#refreshButton").hide();
+      }
+      $('#toggleFirst').show();
       var img = response['firstUserData'][0];
       $('#singerImg').attr('src', 'static/img/' + img);
       var singer = response['firstUserData'][1];
