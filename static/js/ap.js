@@ -712,8 +712,8 @@ $(document).ready(function() {
   AP.init({
     playList: [{
       'icon': iconImage,
-      'title': 'When We Were Young',
-      'file': 'https://s0.vocaroo.com/media/download_temp/Vocaroo_s0R9rANMoYN5.mp3'
+      'title': 'love; not wrong (brave)',
+      'file': 'https://s1.vocaroo.com/media/download_temp/Vocaroo_s1DHyupUSdUn.mp3'
     }]
   });
 
